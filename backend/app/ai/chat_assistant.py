@@ -32,21 +32,26 @@ OUT_OF_SCOPE_REGEX = re.compile(
 # IT core keyword heuristics
 IT_CORE_REGEX = re.compile(
     r"(?i)\b("
+    r"cài|cách cài|các cài|hướng dẫn cài|cài đặt|install|setup|uninstall|gỡ cài đặt|"
+    r"python|pip|conda|anaconda|jupyter|venv|virtualenv|"
+    r"vscode|visual studio|visual studio code|git|github|gitlab|nodejs|node\.js|npm|yarn|pnpm|"
+    r"docker|docker-compose|postman|dbeaver|terminal|cmd|powershell|bash|zsh|path|biến môi trường|"
+    r"java|jdk|jre|c\+\+|c#|\.net|golang|rust|php|mysql|postgres|postgresql|mongodb|redis|"
     r"vpn|wifi|wi-fi|mạng|internet|lan|dns|ip|ping|gateway|"
     r"máy in|printer|kẹt giấy|in ấn|print|scan|máy scan|"
     r"mật khẩu|password|pass|tài khoản|account|đăng nhập|login|otp|2fa|authenticator|khóa tài khoản|"
     r"ticket|phiếu hỗ trợ|yêu cầu hỗ trợ|theo dõi ticket|tạo ticket|sla|tiến độ|service desk|"
-    r"phần mềm|cài đặt|lỗi ứng dụng|outlook|excel|word|teams|slack|zoom|crash|treo máy|"
+    r"phần mềm|lỗi ứng dụng|outlook|excel|word|teams|slack|zoom|crash|treo máy|"
     r"cấp quyền|quyền truy cập|permission|thư mục|sharepoint|drive|máy chủ|server|wfh|"
     r"chính sách|quy định|quy trình|tiêu chuẩn|hướng dẫn|nội quy|tài liệu|kho tri thức|sổ tay|bảo mật|"
-    r"pol-\d+|kb-\d+|sec-\d+|sop-\d+|org-\d+|floor-\d+|rag-\d+|acc-\d+|hw-\d+|net-\d+|ops-\d+|sla-\d+|sw-\d+|tier-\d+|form-\d+|ai-\d+|"
+    r"pol-\d+|kb-\d+|sec-\d+|sop-\d+|org-\d+|floor-\d+|rag-\d+|acc-\d+|hw-\d+|net-\d+|ops-\d+|sla-\d+|sw-\d+|tier-\d+|form-\d+|ai-\d+|dev-\d+|"
     r"[a-z]{2,6}-\d{2,4}"
     r")\b"
 )
 
 # Knowledge & Policy document code regex (POL-005, SEC-001, ACC-002, HW-001, NET-002, OPS-003, SLA-001, SW-001, TIER-001, FORM-001, FLOOR-001, RAG-001, KB-001, SOP-001, etc.)
 ARTICLE_CODE_REGEX = re.compile(
-    r"\b(?:POL|KB|SEC|SOP|ORG|FLOOR|RAG|ACC|HW|NET|OPS|SLA|SW|TIER|FORM|AI|DETAIL)-[A-Za-z0-9]+\b|"
+    r"\b(?:POL|KB|SEC|SOP|ORG|FLOOR|RAG|ACC|HW|NET|OPS|SLA|SW|TIER|FORM|AI|DETAIL|DEV)-[A-Za-z0-9]+\b|"
     r"\b[A-Za-z]{2,6}-\d{2,4}\b",
     re.IGNORECASE
 )
@@ -240,6 +245,7 @@ Hãy phân tích câu hỏi của người dùng và xác định xem có thuộ
 
 PHẠM VI ĐƯỢC PHÉP (IN_SCOPE):
 - Chào hỏi xã giao, giới thiệu tên ("tôi tên là..."), hỏi tên bot ("bạn tên gì"), hỏi tên mình ("tôi tên gì").
+- Cài đặt phần mềm, ngôn ngữ lập trình, công cụ phát triển CNTT (cài Python, VSCode, Git, Node.js, Docker, pip, terminal, command line, biến môi trường PATH...).
 - Mục đích, ý nghĩa và cách sử dụng của chính website / Cổng IT Service Desk này ("trang web này lập ra có ý nghĩa là gì", "website này để làm gì", "mục đích của hệ thống").
 - Phản hồi hoặc bày tỏ cảm xúc về câu trả lời, giao diện hoặc sự cố ("tôi cảm thấy chưa ok", "chưa ổn", "chưa hài lòng").
 - Tài khoản, đăng nhập, mật khẩu, xác thực (2FA, OTP).
@@ -305,6 +311,16 @@ NGUYÊN TẮC BẢO MẬT & GROUNDEDNESS BẮT BUỘC:
    - Mã ticket trên hệ thống chỉ có định dạng TKT-xxxx hoặc TCK-xxxx (ví dụ: TKT-20260928-E9E6).
 9. KHI NGƯỜI DÙNG HỎI VỀ DANH SÁCH TICKET HOẶC MÃ TICKET CỦA MÌNH:
    - Nếu trong ngữ cảnh có 'DANH SÁCH TICKET THỰC TẾ' hoặc 'THÔNG TIN CHI TIẾT TICKET': Liệt kê trực tiếp thông tin ticket ra (Mã, Tiêu đề, Trạng thái, Ưu tiên, Cán bộ phụ trách, Hạn SLA).
+10. HƯỚNG DẪN KỸ THUẬT CÀI ĐẶT CÔNG CỤ / PHẦN MỀM CNTT (Python, Git, VSCode, Node.js, môi trường lập trình):
+   - Khi người dùng hỏi cách cài đặt hoặc cấu hình các công cụ lập trình, ngôn ngữ, phần mềm CNTT (như Python, VSCode, Git, Node.js, Docker, Java...):
+     + BẮT BUỘC CUNG CẤP HƯỚNG DẪN KỸ THUẬT CHI TIẾT TỪNG BƯỚC THỰC TẾ:
+       * Tải từ trang chủ chính thức (ví dụ: https://www.python.org/downloads/).
+       * Lưu ý quan trọng nhất trên Windows: BẮT BUỘC tích chọn checkbox 'Add python.exe to PATH' ở màn hình đầu tiên trước khi bấm Install.
+       * Bấm chọn 'Install Now' để cài đặt.
+       * Cách kiểm tra cài đặt trong Command Prompt (cmd) / PowerShell / Terminal bằng lệnh: `python --version` và `pip --version`.
+       * Hướng dẫn nhanh cho macOS (`brew install python3` hoặc tải file .pkg) và Linux Ubuntu (`sudo apt update && sudo apt install python3 python3-pip`).
+     + TUYỆT ĐỐI KHÔNG dùng tài liệu SW-010 để từ chối hướng dẫn kỹ thuật cài đặt các công cụ lập trình open-source tiêu chuẩn như Python.
+     + Lưu ý thực tế cho máy tính công ty: Nếu thiết bị bị chặn quyền Administrator bởi chính sách UAC/bảo mật, người dùng có thể cài qua Microsoft Store (không cần quyền Admin) hoặc tạo Ticket hỗ trợ để IT hỗ trợ cấp quyền.
 
 Tài liệu Kho tri thức RAG & Dữ liệu Ticket liên quan:
 \"\"\"{kb_context}\"\"\"
