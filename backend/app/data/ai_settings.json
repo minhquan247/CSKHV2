@@ -36,10 +36,10 @@
       "is_active": true,
       "status": "RATE_LIMITED",
       "total_requests": 1,
-      "failed_requests": 3,
-      "last_used_at": 1793477742,
+      "failed_requests": 6,
+      "last_used_at": 1793478735,
       "last_error": null,
-      "rate_limited_until": 1793477802,
+      "rate_limited_until": 1793478795,
       "created_at": 1790648512
     },
     {

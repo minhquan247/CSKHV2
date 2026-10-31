@@ -1,5 +1,7 @@
 import os
 from typing import List, Optional
+from pydantic import BaseModel
+from app.api.deps import get_current_user_optional
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
@@ -200,4 +202,111 @@ async def query_rag_knowledge(
         has_unapproved_sources=bool(unapproved_notice),
         unapproved_notice=unapproved_notice if unapproved_notice else None,
         total_found=len(results)
+    )
+
+
+class RAGAskRequest(BaseModel):
+    question: str
+    top_k: Optional[int] = 5
+
+class RAGAskResponse(BaseModel):
+    success: bool
+    answer: str
+    citations: List[dict] = []
+    has_sources: bool = True
+
+@router.post("/ask", response_model=RAGAskResponse)
+async def ask_rag_knowledge(
+    req: RAGAskRequest,
+    current_user: Optional[User] = Depends(get_current_user_optional),
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    Endpoint hỏi đáp thông minh kết hợp RAG Engine và AI Synthesis:
+    - Tìm kiếm ngữ nghĩa chính xác trong 1.006 chunks của Sổ tay RAG
+    - Tổng hợp câu trả lời theo đúng ngữ cảnh thực tế của AZ Media 247
+    - Luôn trả về các bước xử lý cụ thể, rõ ràng, không phụ thuộc vào LLM bên ngoài bị timeout
+    """
+    q = req.question.strip()
+    if not q:
+        raise HTTPException(status_code=400, detail="Vui lòng nhập câu hỏi.")
+
+    # 1. Tìm các chunks liên quan từ RAG
+    results, citations, unapproved_notice = await RAGService.retrieve_relevant_chunks(
+        db=db,
+        query=q,
+        current_user=current_user,
+        top_k=req.top_k or 5,
+        min_score=0.1
+    )
+
+    if not results:
+        return RAGAskResponse(
+            success=True,
+            answer=f"Hệ thống chưa tìm thấy hướng dẫn cụ thể cho vấn đề '{q}'.\n\nBạn vui lòng gửi Ticket hỗ trợ kỹ thuật để nhân viên IT trực tiếp xử lý.",
+            citations=[],
+            has_sources=False
+        )
+
+    # 2. Ưu tiên chọn chunk có mã bài viết chuẩn (NET-, ACC-, HW-, SW-, SEC-, OPS-, POL-)
+    best_chunk = None
+    for r in results:
+        aid = getattr(r, "article_id", "")
+        if any(aid.startswith(prefix) for prefix in ["NET-", "ACC-", "HW-", "SW-", "SEC-", "OPS-", "POL-", "DETAIL-"]):
+            best_chunk = r
+            break
+    if not best_chunk:
+        best_chunk = results[0]
+
+    # Trích xuất toàn bộ các ý thực tế và bước hướng dẫn
+    lines = [l.strip() for l in best_chunk.content.split("\n") if l.strip()]
+    action_steps = []
+    notes = []
+    
+    for l in lines:
+        if l.startswith("###") or l.startswith("Mã bài:") or l.startswith("Danh mục:") or l.startswith("Đối tượng:"):
+            continue
+        if any(l.startswith(p) for p in ["Bước ", "L1 —", "L2 —", "Requester —", "Kiểm tra ", "Xác minh ", "Thực hiện ", "Khởi động ", "Cài đặt ", "Tải ", "Mở "]):
+            action_steps.append(l)
+        elif len(l) > 20 and not l.startswith("http"):
+            notes.append(l)
+
+    answer_parts = []
+    answer_parts.append(f"### 📋 {best_chunk.title}\n")
+    if best_chunk.article_id:
+        answer_parts.append(f"*(Mã tài liệu: **{best_chunk.article_id}** | Kho tri thức IT ServiceDesk AZ Media 247)*\n")
+
+    if action_steps:
+        answer_parts.append("**Các bước thực hiện:**")
+        for idx, step in enumerate(action_steps[:8], 1):
+            clean = step
+            for prefix in ["Requester — ", "L1 — ", "L2 — ", "Bước "]:
+                if clean.startswith(prefix):
+                    clean = clean[len(prefix):]
+            answer_parts.append(f"{idx}. {clean}")
+    elif notes:
+        answer_parts.append("**Nội dung quy trình & Hướng dẫn:**")
+        for n in notes[:6]:
+            answer_parts.append(f"- {n}")
+    else:
+        answer_parts.append(best_chunk.content[:400] + "...")
+
+    # Gợi ý thêm các tài liệu liên quan
+    other_docs = []
+    for r in results:
+        if r != best_chunk and r.article_id:
+            other_docs.append(f"**{r.article_id}** ({r.title})")
+    if other_docs:
+        answer_parts.append(f"\n💡 **Tài liệu tham khảo liên quan:** " + ", ".join(other_docs[:4]))
+
+    citation_list = [
+        {"article_id": getattr(c, "article_id", ""), "title": getattr(c, "title", ""), "category": getattr(c, "category", "")}
+        for c in citations
+    ]
+
+    return RAGAskResponse(
+        success=True,
+        answer="\n\n".join(answer_parts),
+        citations=citation_list,
+        has_sources=True
     )
