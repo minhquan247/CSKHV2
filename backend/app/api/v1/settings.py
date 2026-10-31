@@ -93,7 +93,8 @@ async def add_batch_gemini_keys(
     current_user: User = Depends(get_current_user)
 ):
     """Thêm danh sách nhiều Gemini API Key cùng lúc"""
-    return gemini_key_manager.add_batch_keys(raw_text=request.raw_keys)
+    lines = [k.strip() for k in request.raw_keys.replace(",", "\n").split("\n") if k.strip()]
+    return gemini_key_manager.add_batch_keys(key_lines=lines)
 
 @router.put("/ai/keys/{key_id}")
 async def update_gemini_key(
@@ -177,7 +178,8 @@ async def add_batch_groq_keys(
     current_user: User = Depends(get_current_user)
 ):
     """Thêm danh sách nhiều Groq API Key cùng lúc"""
-    return gemini_key_manager.add_batch_groq_keys(raw_text=request.raw_keys)
+    lines = [k.strip() for k in request.raw_keys.replace(",", "\n").split("\n") if k.strip()]
+    return gemini_key_manager.add_batch_groq_keys(key_lines=lines)
 
 @router.put("/ai/groq/keys/{key_id}")
 async def update_groq_key(
