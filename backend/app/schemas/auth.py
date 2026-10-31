@@ -4,6 +4,7 @@ from typing import Optional
 class Token(BaseModel):
     access_token: str
     token_type: str
+    is_new_user: bool = False
 
 class TokenPayload(BaseModel):
     sub: str | None = None

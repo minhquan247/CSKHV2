@@ -465,14 +465,10 @@ async def login_with_google(
     result = await db.execute(select(User).where(User.email == email_clean))
     user = result.scalars().first()
 
-    # Nếu chưa có tài khoản
+    # Nếu chưa có tài khoản -> tự động tạo mới
+    is_new_user = False
     if not user:
-        if not payload.is_register:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Tài khoản Google này chưa được đăng ký trong hệ thống. Vui lòng chuyển sang trang Đăng ký để tạo tài khoản mới."
-            )
-        # Nếu đang ở luồng Đăng ký (is_register=True), tạo mới với role REQUESTER
+        is_new_user = True
         role_res = await db.execute(select(Role).where(Role.role_name == "REQUESTER"))
         role = role_res.scalars().first()
         if not role:
@@ -511,4 +507,4 @@ async def login_with_google(
         user_agent=f"{user_agent} (Google OAuth)"
     )
 
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer", "is_new_user": is_new_user}

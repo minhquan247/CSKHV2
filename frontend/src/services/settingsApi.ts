@@ -289,7 +289,7 @@ export const googleAuthApi = {
     const res = await api.get('/auth/google-config');
     return res.data;
   },
-  loginWithGoogle: async (payload: { credential?: string; access_token?: string; is_register?: boolean }): Promise<{ access_token: string; token_type: string }> => {
+  loginWithGoogle: async (payload: { credential?: string; access_token?: string; is_register?: boolean }): Promise<{ access_token: string; token_type: string; is_new_user?: boolean }> => {
     const res = await api.post('/auth/google', payload);
     return res.data;
   }

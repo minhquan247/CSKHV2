@@ -11,6 +11,7 @@ services:
     volumes:
       - v2_pgdata:/var/lib/postgresql/data
     networks: [production]
+
   v2-mysql:
     image: mysql:8.0
     container_name: cskh-v2-mysql
@@ -29,6 +30,15 @@ services:
       timeout: 5s
       retries: 30
     networks: [production]
+
+  redis:
+    image: redis:7-alpine
+    container_name: cskh-v2-redis
+    restart: unless-stopped
+    volumes:
+      - v2_redis_data:/data
+    networks: [production]
+
   v2-backend:
     build:
       context: ./backend
@@ -40,6 +50,8 @@ services:
     volumes:
       - ./backend:/app
     depends_on:
+      redis:
+        condition: service_started
       v2-mysql:
         condition: service_healthy
     environment:
@@ -49,9 +61,17 @@ services:
       DEBUG: "false"
       HOST: 0.0.0.0
       PORT: 8000
+      SMTP_HOST: mx.tino.vn
+      SMTP_PORT: 587
+      SMTP_USER: daotaotms@tuoitre24h.com
+      SMTP_PASSWORD: "Quan2006@"
+      SMTP_FROM_EMAIL: daotaotms@tuoitre24h.com
+      SMTP_FROM_NAME: "Support IT"
+      SMTP_TLS: "true"
     ports:
       - "127.0.0.1:18000:8000"
     networks: [production]
+
   v2-nginx:
     image: nginx:alpine
     container_name: cskh-v2-nginx
@@ -69,6 +89,8 @@ volumes:
   v2_pgdata:
   v2_mysql_data:
     name: cskh_v2_mysql_data
+  v2_redis_data:
+
 networks:
   production:
     external: true

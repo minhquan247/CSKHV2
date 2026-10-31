@@ -14,6 +14,8 @@ export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isGoogleLoggingIn, setIsGoogleLoggingIn] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [welcomeName, setWelcomeName] = useState('');
   const [googleConfig, setGoogleConfig] = useState<{ enabled: boolean; client_id: string; redirect_uri: string }>({
     enabled: false,
     client_id: '',
@@ -41,6 +43,11 @@ export const LoginPage = () => {
             try {
               const user = await authApi.getCurrentUser();
               if (user?.role_name) localStorage.setItem('user_role', user.role_name);
+              if (data.is_new_user) {
+                setWelcomeName(user?.full_name || '');
+                setShowWelcome(true);
+                return;
+              }
               if (user?.role_name === 'REQUESTER') {
                 navigate('/tickets');
               } else {
@@ -106,6 +113,12 @@ export const LoginPage = () => {
           localStorage.setItem('token', data.access_token); if ((data as any).role) localStorage.setItem('user_role', (data as any).role);
           try {
             const user = await authApi.getCurrentUser();
+            if (user?.role_name) localStorage.setItem('user_role', user.role_name);
+            if (data.is_new_user) {
+              setWelcomeName(user?.full_name || '');
+              setShowWelcome(true);
+              return;
+            }
             if (user?.role_name === 'REQUESTER') {
               navigate('/tickets');
             } else {
@@ -166,6 +179,12 @@ export const LoginPage = () => {
           localStorage.setItem('token', data.access_token); if ((data as any).role) localStorage.setItem('user_role', (data as any).role);
           try {
             const user = await authApi.getCurrentUser();
+            if (user?.role_name) localStorage.setItem('user_role', user.role_name);
+            if (data.is_new_user) {
+              setWelcomeName(user?.full_name || '');
+              setShowWelcome(true);
+              return;
+            }
             if (user?.role_name === 'REQUESTER') {
               navigate('/tickets');
             } else {
@@ -368,6 +387,41 @@ export const LoginPage = () => {
           Chưa có tài khoản? <Link to="/register" className="text-indigo-600 hover:text-indigo-700 font-semibold hover:underline">Đăng ký ngay</Link>
         </div>
       </div>
+
+        {/* Welcome Modal for new Google users */}
+        {showWelcome && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md mx-4 text-center animate-in fade-in zoom-in duration-300">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-slate-800 mb-2">🎉 Đăng ký thành công!</h2>
+              <p className="text-slate-600 text-sm mb-1">
+                Chào mừng <span className="font-semibold text-indigo-600">{welcomeName}</span> đến với hệ thống!
+              </p>
+              <p className="text-slate-500 text-sm mb-6">
+                Tài khoản của bạn đã được tạo tự động. Chúc bạn có trải nghiệm vui vẻ! 😊
+              </p>
+              <button
+                onClick={() => {
+                  setShowWelcome(false);
+                  const role = localStorage.getItem('user_role');
+                  if (role === 'REQUESTER') {
+                    navigate('/tickets');
+                  } else {
+                    navigate('/dashboard');
+                  }
+                }}
+                className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold transition-colors text-sm cursor-pointer"
+              >
+                Bắt đầu sử dụng →
+              </button>
+            </div>
+          </div>
+        )}
+
     </AuthBackground>
   );
 };
