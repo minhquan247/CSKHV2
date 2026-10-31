@@ -351,6 +351,7 @@ export const KnowledgePage = () => {
     { id: 'NETWORK', label: 'Mạng & VPN', icon: Wifi, count: allArticles.filter(a => a.category === 'NETWORK').length },
     { id: 'SOFTWARE', label: 'Phần mềm & Cấp quyền', icon: Cpu, count: allArticles.filter(a => a.category === 'SOFTWARE').length },
     { id: 'SECURITY', label: 'Bảo mật & 2FA', icon: Shield, count: allArticles.filter(a => a.category === 'SECURITY').length },
+    { id: 'GENERAL', label: 'Quy trình & Hướng dẫn', icon: HelpCircle, count: allArticles.filter(a => a.category === 'GENERAL' || a.category === 'SLA' || a.category === 'POLICY').length },
   ];
 
   const [searchParams] = useSearchParams();
@@ -417,7 +418,9 @@ export const KnowledgePage = () => {
   };
 
   const filteredArticles = allArticles.filter(art => {
-    const matchesCat = selectedCategory === 'ALL' || art.category === selectedCategory;
+    const matchesCat = selectedCategory === 'ALL' || 
+                       art.category === selectedCategory || 
+                       (selectedCategory === 'GENERAL' && (art.category === 'GENERAL' || art.category === 'SLA' || art.category === 'POLICY'));
     const query = searchQuery.toLowerCase().trim();
     const matchesSearch = !query || 
                           art.title.toLowerCase().includes(query) || 
