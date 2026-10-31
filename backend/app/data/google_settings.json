@@ -1,6 +1,6 @@
 {
   "enabled": true,
-  "client_id": "YOUR_GOOGLE_CLIENT_ID",
+  "client_id": "947371405945-m89s5a9iucr0osoqkt86ujm621nihoa6.apps.googleusercontent.com",
   "client_secret": "YOUR_GOOGLE_CLIENT_SECRET",
-  "redirect_uri": "https://yourdomain.com/login"
+  "redirect_uri": "https://azmedia247.com/login"
 }

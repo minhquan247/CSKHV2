@@ -411,7 +411,7 @@ async def create_ticket(db: AsyncSession, ticket_data: dict, requester_id: str) 
     ai_log = AILog(
         ticket_id=new_ticket.id,
         task_type="TRIAGE",
-        model_name="gemini-2.5-flash",
+        model_name="gemini-flash-lite-latest",
         pii_detected=has_pii,
         agent_action="AUTO_TRIAGE_AND_L1_ASSIGN" if ai_processed else "AUTO_TRIAGE_FALLBACK_L1_ASSIGN",
         error_message=ai_error_msg

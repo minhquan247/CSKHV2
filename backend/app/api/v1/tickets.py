@@ -960,7 +960,7 @@ async def classify_ticket_api(
     ai_log = AILog(
         ticket_id=ticket_id,
         task_type="CLASSIFY",
-        model_name="gemini-2.5-flash",
+        model_name="gemini-flash-lite-latest",
         pii_detected=has_pii,
         agent_action="AGENT_RECLASSIFY"
     )
@@ -1106,7 +1106,7 @@ async def suggest_reply_api(
     ai_log = AILog(
         ticket_id=ticket_id,
         task_type="COPILOT",
-        model_name="gemini-2.5-flash",
+        model_name="gemini-flash-lite-latest",
         pii_detected=has_pii,
         agent_action="DRAFT_SUGGESTED"
     )
@@ -1166,7 +1166,7 @@ async def summarize_history_api(
     ai_log = AILog(
         ticket_id=ticket_id,
         task_type="SUMMARIZE",
-        model_name="gemini-2.5-flash",
+        model_name="gemini-flash-lite-latest",
         pii_detected=has_pii,
         agent_action="SUMMARIZE_HISTORY"
     )
