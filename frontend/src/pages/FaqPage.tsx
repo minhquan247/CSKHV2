@@ -673,7 +673,7 @@ export const FaqPage = () => {
     });
   };
 
-  const handleAiSearch = (e: React.FormEvent) => {
+  const handleAiSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const q = searchQuery.trim();
     if (!q) return;
@@ -681,39 +681,35 @@ export const FaqPage = () => {
     setIsAiSearching(true);
     setAiResponse(null);
 
-    setTimeout(() => {
-      const lower = q.toLowerCase();
-      if (lower.includes('sla') || lower.includes('thời gian') || lower.includes('cam kết')) {
-        setAiResponse(
-          `⏱️ **Quy định SLA Service Desk:**\n` +
-          `• **P1 - Khẩn cấp**: Phản hồi 15p, xử lý tối đa 4h.\n` +
-          `• **P2 - Cao**: Phản hồi 30p, xử lý tối đa 8h.\n` +
-          `• **P3 - Trung bình**: Phản hồi 2h, xử lý tối đa 24h.\n` +
-          `• **P4 - Thấp**: Phản hồi 4h, xử lý tối đa 48h.`
-        );
-      } else if (lower.includes('mật khẩu') || lower.includes('khóa') || lower.includes('login')) {
-        setAiResponse(
-          `🔐 **Khắc phục tài khoản / Mật khẩu:**\n` +
-          `1. Chờ **15 phút** nếu bị khóa do nhập sai quá 5 lần.\n` +
-          `2. Sử dụng tính năng **Quên mật khẩu** trên màn hình đăng nhập để nhận mã xác thực qua Email.\n` +
-          `3. Hoặc liên hệ IT Desk để được mở khóa ngay.`
-        );
-      } else if (lower.includes('vpn') || lower.includes('wfh') || lower.includes('từ xa')) {
-        setAiResponse(
-          `🌐 **Cấu hình VPN nội bộ:**\n` +
-          `• Server Gateway: \`vpn.company.vn\` (Port: \`10443\`).\n` +
-          `• Đăng nhập bằng Email và Password công ty kèm mã OTP 2FA từ ứng dụng Authenticator.`
-        );
+    try {
+      // Gọi trực tiếp AI Assistant Engine (Gemini 2.5 Flash + RAG Knowledge)
+      const res = await api.post('/tickets/assistant/chat', {
+        message: q,
+        history: []
+      });
+      if (res.data?.reply) {
+        setAiResponse(res.data.reply);
       } else {
+        throw new Error('No reply');
+      }
+    } catch (err) {
+      // Fallback tra cứu RAG ask
+      try {
+        const ragRes = await api.post('/rag/ask', { question: q });
+        if (ragRes.data?.answer) {
+          setAiResponse(ragRes.data.answer);
+        } else {
+          throw new Error('No rag answer');
+        }
+      } catch (ragErr) {
         setAiResponse(
-          `💡 **Gợi ý từ Trợ lý AI:**\n\nĐối với thắc mắc "${q}":\n` +
-          `1. Kiểm tra lại kết nối mạng hoặc thử khởi động lại ứng dụng.\n` +
-          `2. Tra cứu thêm trong **Kho tri thức**.\n` +
-          `3. Nếu chưa khắc phục được, bạn có thể bấm **Gửi Ticket Yêu Cầu Mới** để kỹ thuật viên IT hỗ trợ trực tiếp.`
+          `💡 **Gợi ý từ Trợ lý AI IT Service Desk:**\n\n` +
+          `Đối với vấn đề **"${q}"**, hệ thống khuyến nghị bạn kiểm tra trong **Kho tri thức** hoặc bấm nút **Tạo Ticket hỗ trợ** bên dưới để kỹ thuật viên trực tiếp tiếp nhận.`
         );
       }
+    } finally {
       setIsAiSearching(false);
-    }, 400);
+    }
   };
 
   const handleApproveFaq = async (faqId: string) => {
