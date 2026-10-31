@@ -139,3 +139,33 @@ CSKH/
 ├── docker-compose.yml        # Điều phối các dịch vụ Docker (Backend, Frontend, Nginx, Redis)
 └── README.md                 # Hướng dẫn chi tiết hệ thống
 ```
+
+## ⚙️ Cơ Chế Tự Động Định Tuyến & Phân Công Ticket (Auto-Assignment & AI Triage)
+
+Khi người dùng gửi một yêu cầu hỗ trợ (Ticket), hệ thống IT Service Desk sẽ xử lý tự động qua 4 bước chuẩn ITIL:
+
+```
+[Người dùng gửi Ticket]
+          │
+          ▼
+   1. AI TRIAGE & SENTIMENT
+   (Phân loại danh mục, mức ưu tiên P1-P4 & phát hiện bức xúc)
+          │
+          ▼
+   2. XÁC ĐỊNH CẤP HỖ TRỢ (L1 vs L2)
+   - Bình thường ───────────────────────────────► Tầng L1 (Tuyến đầu)
+   - Khẩn cấp / AI phát hiện rủi ro cao ────────► Tầng L2 (Chuyên gia)
+          │
+          ▼
+   3. ĐỊNH TUYẾN THEO CHUYÊN MÔN (Skill-based Routing)
+   (Khớp nhóm kỹ năng: ACCOUNT_AUTH, NETWORK_INFRA, SOFTWARE_BUG,...)
+          │
+          ▼
+   4. CÂN BẰNG TẢI (Least-Workload Load Balancing)
+   (Chọn nhân viên có ít ticket đang xử lý nhất)
+```
+
+### 👥 Trường hợp có nhiều nhân viên cùng cấp (Ví dụ: 2 Kỹ thuật viên L1):
+1. **Ai ít việc hơn thì nhận:** Hệ thống đếm số ticket đang mở (`NEW`, `PROCESSING`, `WAITING_CUSTOMER`) của từng nhân viên. Người có tải công việc thấp nhất sẽ được giao ticket mới.
+2. **Nếu số lượng ticket bằng nhau:** Hệ thống chỉ định theo thứ tự hàng đợi ưu tiên trong cơ sở dữ liệu (`active_count ASC`). Ticket kế tiếp sẽ tự động luân phiên sang người còn lại.
+3. **Khi cần Chuyển cấp (Escalation):** Nếu người dùng bức xúc hoặc sự cố vượt quá thẩm quyền của L1, AI sẽ tự động kích hoạt leo thang lên tầng **L2** tương ứng thay vì chuyển ngang giữa các L1.
