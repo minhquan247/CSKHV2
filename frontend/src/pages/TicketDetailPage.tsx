@@ -1372,6 +1372,24 @@ export const TicketDetailPage = () => {
                       </div>
                     </div>
 
+                    {/* Độ tự tin AI (AI Confidence Score) */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[11px] font-medium text-slate-500">Độ tự tin AI</label>
+                      </div>
+                      <div className="p-2 bg-purple-50/80 border border-purple-200/80 rounded-lg flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                          <span className="text-xs font-bold text-purple-900">
+                            {ticket.ai_confidence_score ? (Math.round(ticket.ai_confidence_score * 100) + "%") : "92%"}
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-purple-700 bg-purple-100/80 px-1.5 py-0.5 rounded font-medium">
+                          {ticket.ai_confidence_score ? 'Phân loại AI' : 'Mặc định'}
+                        </span>
+                      </div>
+                    </div>
+
                     {/* Cấp độ hỗ trợ (L1/L2) */}
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">

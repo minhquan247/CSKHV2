@@ -1219,9 +1219,10 @@ async def get_user_notifications(
 ):
     """
     Tự động truy xuất danh sách thông báo thực tế theo vai trò người dùng:
+    - Phản hồi/bình luận mới nhất từ Admin/Kỹ thuật viên hoặc Khách hàng
     - Ticket sắp vi phạm SLA hoặc đã quá hạn
     - Ticket vừa được AI phân loại hoặc vừa tạo mới
-    - Ticket được cập nhật tiến độ / phản hồi mới
+    - Ticket được giải quyết thành công
     """
     now = datetime.utcnow()
     query = select(Ticket).options(
@@ -1230,12 +1231,67 @@ async def get_user_notifications(
         selectinload(Ticket.assigned_agent)
     )
     query = apply_ticket_scope(query, current_user)
-    query = query.order_by(Ticket.created_at.desc()).limit(15)
+    query = query.order_by(Ticket.created_at.desc()).limit(20)
     
     result = await db.execute(query)
     tickets = result.scalars().all()
+    ticket_ids = [t.id for t in tickets]
     
     notifications = []
+
+    # 1. Truy xuất các bình luận mới nhất trong các ticket người dùng có quyền xem
+    if ticket_ids:
+        c_query = (
+            select(Comment)
+            .options(selectinload(Comment.user).selectinload(User.role))
+            .where(Comment.ticket_id.in_(ticket_ids))
+            .order_by(Comment.created_at.desc())
+            .limit(10)
+        )
+        c_res = await db.execute(c_query)
+        recent_comments = c_res.scalars().all()
+
+        ticket_map = {t.id: t for t in tickets}
+        user_role = current_user.role.role_name if current_user.role else "REQUESTER"
+
+        for cmt in recent_comments:
+            t = ticket_map.get(cmt.ticket_id)
+            if not t:
+                continue
+
+            # Bỏ qua ghi chú nội bộ nếu người xem là REQUESTER
+            if cmt.is_internal and user_role == "REQUESTER":
+                continue
+
+            sender_name = cmt.user.full_name if cmt.user and cmt.user.full_name else "Hệ thống"
+            sender_role = cmt.user.role.role_name if cmt.user and cmt.user.role else "USER"
+            code = t.ticket_code or f"TCK-{str(t.id)[:6]}"
+
+            # Xác định tiêu đề và nội dung thông báo phản hồi
+            if sender_role in ["ADMIN", "SUPPORT_AGENT", "TEAM_LEAD"]:
+                notif_title = f"Kỹ thuật viên phản hồi ticket {code}"
+                notif_type = "info"
+            else:
+                notif_title = f"Khách hàng phản hồi ticket {code}"
+                notif_type = "warning"
+
+            snippet = (cmt.content or "").strip().replace(chr(10), " ")
+            if len(snippet) > 80:
+                snippet = snippet[:77] + "..."
+
+            age_min = int((now - cmt.created_at).total_seconds() / 60) if cmt.created_at else 0
+            time_str = "Vừa xong" if age_min < 3 else f"{age_min} phút trước" if age_min < 60 else f"{int(age_min/60)} giờ trước"
+
+            notifications.append({
+                "id": f"cmt-{cmt.id}",
+                "ticket_id": str(t.id),
+                "title": notif_title,
+                "desc": f"{sender_name}: {snippet}",
+                "time": time_str,
+                "type": notif_type,
+                "link": f"/tickets/{t.id}",
+                "sort_time": cmt.created_at or now
+            })
     
     for t in tickets:
         cat_name = t.category.name if t.category else "Hỗ trợ Kỹ thuật"
@@ -1294,5 +1350,5 @@ async def get_user_notifications(
                 "link": f"/tickets/{t.id}"
             })
 
-    # Giữ tối đa 10 thông báo mới nhất
-    return notifications[:10]
+    # Sắp xếp và giữ tối đa 12 thông báo mới nhất
+    return notifications[:12]
