@@ -1,0 +1,72 @@
+{
+  "ACC-001": {
+    "views": 12,
+    "helpful": 2,
+    "not_helpful": 0
+  },
+  "ACC-003": {
+    "views": 2,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "1": {
+    "views": 3,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "ACC-002": {
+    "views": 10,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "ACC-006": {
+    "views": 4,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "AI-001": {
+    "views": 2,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "DETAIL-NET": {
+    "views": 203,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "ACC-005": {
+    "views": 3,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "ACC-009": {
+    "views": 2,
+    "helpful": 1,
+    "not_helpful": 0
+  },
+  "HW-002": {
+    "views": 516,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "PRJ-AZ": {
+    "views": 7017,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "ACC-004": {
+    "views": 1,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "3": {
+    "views": 1,
+    "helpful": 0,
+    "not_helpful": 0
+  },
+  "ACC-008": {
+    "views": 1,
+    "helpful": 0,
+    "not_helpful": 0
+  }
+}
