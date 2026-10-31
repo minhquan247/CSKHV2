@@ -36,142 +36,7 @@ interface FAQItem {
   answer: string;
 }
 
-const DEFAULT_ARTICLES: Article[] = [
-  {
-    "id": 1,
-    "category": "DEVICE",
-    "categoryLabel": "Thiết bị & Máy in",
-    "title": "Hướng dẫn cài đặt Driver máy in văn phòng và kết nối qua mạng IP nội bộ",
-    "desc": "Các bước thêm máy in Canon / HP / Ricoh trên Windows 10/11 và macOS mà không cần đĩa cài.",
-    "views": "3.5k lượt xem",
-    "time": "Cập nhật 1 ngày trước",
-    "badge": "Phổ biến",
-    "content": "Tất cả các tầng văn phòng của AZ Media 247 đều được trang bị máy in mạng đa năng tốc độ cao. Nhân viên có thể tự cài đặt theo địa chỉ IP máy in của tầng mình mà không cần gọi IT.",
-    "steps": [
-      "Vào Windows Settings > Devices > Printers & Scanners > Chọn 'Add a printer or scanner'.",
-      "Chọn 'The printer that I want isn't listed' > Chọn 'Add a printer using an IP address or hostname'.",
-      "Nhập IP máy in văn phòng (Tầng 1: 192.168.1.200, Tầng 2: 192.168.1.201, Tầng 3: 192.168.1.202).",
-      "Chọn Driver phù hợp (Canon Generic Plus UFR II hoặc HP Universal Print Driver) và in trang kiểm tra (Print Test Page)."
-    ]
-  },
-  {
-    "id": 2,
-    "category": "DEVICE",
-    "categoryLabel": "Thiết bị & Máy in",
-    "title": "Xử lý lỗi máy in báo Offline hoặc kẹt giấy (Paper Jam)",
-    "desc": "Cách reset dịch vụ Print Spooler và gỡ kẹt giấy an toàn không làm rách bao lụa.",
-    "views": "2.1k lượt xem",
-    "time": "Cập nhật 3 ngày trước",
-    "badge": "Khắc phục nhanh",
-    "content": "Lỗi máy in báo Offline thường xảy ra khi hàng đợi in (Print Queue) bị treo hoặc khay giấy bị lệch cảm biến.",
-    "steps": [
-      "Mở cửa sổ Run (Win + R), gõ services.msc, tìm dịch vụ 'Print Spooler' > Nhấp chuột phải chọn 'Restart'.",
-      "Kiểm tra khay nạp giấy xem giấy có bị ẩm, nhăn hoặc đặt quá vạch giới hạn MAX không.",
-      "Nếu máy báo kẹt giấy (Jam in cartridge area), mở nắp hông theo chiều mũi tên, nhẹ nhàng rút giấy kẹt theo chiều quay của trục cuốn (tuyệt đối không giật ngược chiều).",
-      "Đóng chặt nắp máy in, nhấn nút Resume/OK trên máy để tiếp tục in."
-    ]
-  },
-  {
-    "id": 3,
-    "category": "AUTH",
-    "categoryLabel": "Tài khoản & Xác thực",
-    "title": "Hướng dẫn khôi phục mật khẩu tài khoản nội bộ AZ Media 247",
-    "desc": "Các bước reset mật khẩu qua email công ty và kích hoạt lại ứng dụng xác thực nhanh chóng.",
-    "views": "4.2k lượt xem",
-    "time": "Cập nhật hôm nay",
-    "badge": "Phổ biến",
-    "content": "Để bảo vệ an toàn thông tin theo chuẩn ITIL & ISO 27001 của AZ Media 247, mật khẩu tài khoản cần có độ phức tạp cao và cập nhật định kỳ.",
-    "steps": [
-      "Truy cập cổng đăng nhập nội bộ tại azmedia247.com/login và nhấn vào 'Quên mật khẩu'.",
-      "Nhập địa chỉ email công vụ của bạn để hệ thống gửi mã OTP xác thực khôi phục qua hòm thư.",
-      "Nhập mã OTP 6 số nhận được và thiết lập mật khẩu mới (tối thiểu 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt).",
-      "Đăng nhập lại trên các ứng dụng liên kết (Outlook, Slack, Teams, VPN) với mật khẩu mới vừa đổi."
-    ]
-  },
-  {
-    "id": 4,
-    "category": "NETWORK",
-    "categoryLabel": "Mạng & VPN",
-    "title": "Cách kết nối OpenVPN khi làm việc từ xa (Work from Home - WFH)",
-    "desc": "Cài đặt cấu hình file .ovpn, xác thực 2 bước và xử lý lỗi không truy cập được server nội bộ.",
-    "views": "3.8k lượt xem",
-    "time": "Cập nhật 2 ngày trước",
-    "badge": "Quan trọng",
-    "content": "Tất cả nhân viên làm việc từ xa (WFH) bắt buộc phải bật OpenVPN trước khi truy cập tài nguyên cơ sở dữ liệu, file server và CRM nội bộ của AZ Media 247.",
-    "steps": [
-      "Tải ứng dụng OpenVPN Client phiên bản tương thích với hệ điều hành của bạn (Windows / macOS / Linux).",
-      "Nhập file cấu hình vpn-azmedia247.ovpn được cấp bởi phòng IT ServiceDesk.",
-      "Nhập tài khoản đăng nhập và mã Authenticator OTP khi kết nối.",
-      "Kiểm tra biểu tượng OpenVPN chuyển sang màu xanh lá và truy cập thử cổng thông tin nội bộ."
-    ]
-  },
-  {
-    "id": 5,
-    "category": "SECURITY",
-    "categoryLabel": "Bảo mật & 2FA",
-    "title": "Kích hoạt xác thực 2 yếu tố (2FA) bằng Google Authenticator",
-    "desc": "Bảo mật tài khoản với 2FA và lưu trữ mã khôi phục dự phòng an toàn.",
-    "views": "1.9k lượt xem",
-    "time": "Cập nhật 3 ngày trước",
-    "badge": "Bảo mật",
-    "content": "Xác thực 2 lớp (2FA) giúp ngăn chặn 99.9% nguy cơ bị tấn công chiếm đoạt tài khoản ngay cả khi mật khẩu bị lộ lọt.",
-    "steps": [
-      "Tải ứng dụng Google Authenticator hoặc Microsoft Authenticator trên điện thoại thông minh.",
-      "Đăng nhập tài khoản > Vào mục 'Hồ sơ cá nhân' > Chọn tab 'Bảo mật' > Nhấn 'Bật xác thực 2 bước'.",
-      "Mở ứng dụng trên điện thoại và quét mã QR hiển thị trên màn hình máy tính.",
-      "Lưu lại 5 mã dự phòng (Backup Codes) vào nơi an toàn đề phòng trường hợp mất hoặc đổi điện thoại."
-    ]
-  },
-  {
-    "id": 6,
-    "category": "SOFTWARE",
-    "categoryLabel": "Phần mềm & Cấp quyền",
-    "title": "Quy trình xin cấp bản quyền phần mềm Microsoft 365, Adobe & JetBrains",
-    "desc": "Hướng dẫn gửi ticket yêu cầu cấp key và thời gian phê duyệt tiêu chuẩn của IT Helpdesk.",
-    "views": "2.4k lượt xem",
-    "time": "Cập nhật 5 ngày trước",
-    "badge": "Bản quyền",
-    "content": "AZ Media 247 trang bị đầy đủ bản quyền phần mềm chuyên dụng cho nhân sự chính thức phục vụ công việc thiết kế, lập trình và truyền thông.",
-    "steps": [
-      "Vào mục 'Tạo Ticket' trên hệ thống ServiceDesk, chọn danh mục 'Phần mềm & Cấp quyền'.",
-      "Chọn gói phần mềm cần cấp (Microsoft 365 Business, Adobe Creative Cloud, JetBrains All Products, Figma Enterprise).",
-      "Đính kèm xác nhận (Approval) qua email hoặc tin nhắn của Trưởng bộ phận phụ trách.",
-      "Đội ngũ IT Support sẽ kiểm tra license pool, cấp tài khoản và bàn giao key kích hoạt trong vòng 2-4 giờ làm việc."
-    ]
-  },
-  {
-    "id": 7,
-    "category": "NETWORK",
-    "categoryLabel": "Mạng & VPN",
-    "title": "Khắc phục sự cố mạng Wifi văn phòng chập chờn hoặc không nhận IP",
-    "desc": "Các lệnh giải phóng IP (ipconfig /release) và flush DNS trên máy trạm Windows / macOS.",
-    "views": "3.1k lượt xem",
-    "time": "Cập nhật 1 tuần trước",
-    "content": "Sự cố kết nối Wifi văn phòng thường do xung đột địa chỉ IP cục bộ từ DHCP hoặc bộ nhớ đệm DNS cũ của máy tính.",
-    "steps": [
-      "Tắt Wifi trên thiết bị, chờ 5 giây rồi bật lại và chọn mạng 'AZMedia247-Enterprise-5G'.",
-      "Trên Windows: Mở Command Prompt (cmd) dưới quyền Run as Administrator, gõ: 'ipconfig /flushdns' rồi gõ tiếp 'ipconfig /renew'.",
-      "Trên macOS: Mở Terminal gõ lệnh: 'sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder' rồi nhập mật khẩu máy.",
-      "Nếu vẫn không vào được mạng, khởi động lại máy hoặc liên hệ ngay hotline IT Tầng: Ext 101."
-    ]
-  },
-  {
-    "id": 8,
-    "category": "SOFTWARE",
-    "categoryLabel": "Phần mềm & Cấp quyền",
-    "title": "Cài đặt và cấu hình chứng chỉ bảo mật SSL nội bộ trên trình duyệt",
-    "desc": "Tải file .crt và cài đặt vào Trusted Root Certification Authorities để loại bỏ cảnh báo trình duyệt.",
-    "views": "1.2k lượt xem",
-    "time": "Cập nhật 2 tuần trước",
-    "content": "Hướng dẫn loại bỏ thông báo cảnh báo bảo mật 'Kết nối của bạn không phải là kết nối riêng tư' khi truy cập các hệ thống quản trị nội bộ (*.azmedia247.com).",
-    "steps": [
-      "Tải chứng chỉ bảo mật gốc 'AZMediaRootCA.crt' từ cổng tài nguyên nội bộ.",
-      "Nhấp đúp chuột vào file certificate vừa tải > Chọn 'Install Certificate...'.",
-      "Chọn 'Local Machine' > Chọn 'Place all certificates in the following store' > Chọn thư mục 'Trusted Root Certification Authorities'.",
-      "Nhấn Next > Finish > Khởi động lại toàn bộ trình duyệt Chrome hoặc Edge để áp dụng chứng chỉ mới."
-    ]
-  }
-];
+const DEFAULT_ARTICLES: Article[] = [];
 
 export const KnowledgePage = () => {
   const cachedRole = localStorage.getItem("user_role");
@@ -337,11 +202,11 @@ export const KnowledgePage = () => {
   const [stepInputs, setStepInputs] = useState<string[]>(['', '']);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const { data: serverArticles } = useQuery({
+  const { data: serverArticles, isLoading: isLoadingArticles } = useQuery({
     queryKey: ['knowledgeArticles'],
     queryFn: knowledgeApi.getArticles,
   });
-  const baseArticles = serverArticles && serverArticles.length > 0 ? serverArticles : DEFAULT_ARTICLES;
+  const baseArticles = serverArticles || [];
   const allArticles: Article[] = [...customArticles, ...baseArticles];
 
   const categories = [
@@ -681,6 +546,27 @@ export const KnowledgePage = () => {
         </div>
 
         {/* Article Cards Grid */}
+        {isLoadingArticles ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <div key={idx} className="p-5 rounded-2xl bg-white border border-slate-200 animate-pulse space-y-4 shadow-2xs">
+                <div className="flex justify-between items-center">
+                  <div className="h-4 bg-slate-200 rounded w-24"></div>
+                  <div className="h-4 bg-slate-200 rounded w-16"></div>
+                </div>
+                <div className="space-y-2">
+                  <div className="h-5 bg-slate-200 rounded w-4/5"></div>
+                  <div className="h-3 bg-slate-200 rounded w-full"></div>
+                  <div className="h-3 bg-slate-200 rounded w-3/4"></div>
+                </div>
+                <div className="pt-3 border-t border-slate-100 flex justify-between items-center">
+                  <div className="h-3 bg-slate-200 rounded w-20"></div>
+                  <div className="h-3 bg-slate-200 rounded w-16"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {paginatedArticles.map((art) => {
             const artStats = statsMap[String(art.id)];
@@ -741,6 +627,7 @@ export const KnowledgePage = () => {
             );
           })}
         </div>
+        )}
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
