@@ -1,4 +1,5 @@
 import { authApi } from "../services/authApi";
+import { api } from "../services/api";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState, useMemo } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
