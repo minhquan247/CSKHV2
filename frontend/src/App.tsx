@@ -150,7 +150,8 @@ function App() {
             <Route path="/customers" element={<ProtectedRoute allowedRoles={['ADMIN']}><CustomersPage /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute allowedRoles={['ADMIN']}><SettingsPage /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-            <Route path="/thongtinweb" element={<ThongTinWebPage />} />
+            <Route path="/all" element={<ThongTinWebPage />} />
+            <Route path="/thongtinweb" element={<Navigate to="/all" replace />} />
             
             {/* Catch-all redirect to Home */}
             <Route path="*" element={<Navigate to="/" replace />} />
