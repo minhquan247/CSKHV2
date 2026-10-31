@@ -1,255 +1,171 @@
 # 🚀 Hướng Dẫn Cài Đặt & Vận Hành Hệ Thống IT Service Desk Tích Hợp AI (Nhóm 10)
 
-> **Hệ thống Quản lý Dịch vụ Hỗ trợ CNTT & Khách hàng Nội bộ (IT Service Desk)** được xây dựng theo tiêu chuẩn **ITIL v4**, tích hợp sâu các mô hình Trí tuệ Nhân tạo (**AI Triage, Sentiment Analysis, RAG Knowledge Base, AI Copilot**) giúp tự động hóa phân loại yêu cầu, định tuyến kỹ năng, cân bằng tải công việc giữa các kỹ thuật viên và đảm bảo cam kết chất lượng dịch vụ (SLA).
-
----
-
-## 👥 Danh Sách Thành Viên Thực Hiện (Nhóm 10)
-
-- **ĐOÀN MINH QUÂN**
-- **NGUYỄN MINH PHƯƠNG**
-- **THÂN PHÚ CƯỜNG**
+Hệ thống quản lý hỗ trợ khách hàng và dịch vụ CNTT nội bộ (**IT Service Desk**) tích hợp Trợ lý Trí tuệ Nhân tạo (**AI Engine**) tự động hóa phân loại yêu cầu, tính toán SLA, gán quyền xử lý thông minh và gợi ý phản hồi kỹ thuật.
 
 ---
 
 ## 🌐 1. Thông Tin Triển Khai & Truy Cập Hệ Thống
 
-Hệ thống được đóng gói container hóa độc lập và triển khai thực tế trên máy chủ Ubuntu thông qua **Nginx Reverse Proxy**, tích hợp chứng chỉ SSL và tối ưu hóa nén Gzip.
+Hệ thống được cấu hình chạy qua Nginx Reverse Proxy tích hợp chứng chỉ SSL và tối ưu hóa nén Gzip.
 
-| Dịch vụ | Đường dẫn trực tuyến (URL) | Mô tả chức năng |
+| Dịch vụ | Đường dẫn (URL) | Ghi chú |
 | :--- | :--- | :--- |
-| **Cổng Web Dịch Vụ Chính** | [https://azmedia247.com](https://azmedia247.com) | Cổng tiếp nhận hỗ trợ, Portal Khách hàng & Dashboard Kỹ thuật viên |
-| **Trang Tài Liệu Toàn Diện** | [https://azmedia247.com/all](https://azmedia247.com/all) | Chuyên trang kỹ thuật nội bộ giải thích toàn bộ kiến trúc & cơ chế AI |
-| **Tài liệu Swagger API** | [https://azmedia247.com/api/v1/docs](https://azmedia247.com/api/v1/docs) | Giao diện kiểm thử API tương tác trực tiếp (Swagger UI) |
-| **Tài liệu ReDoc OpenAPI** | [https://azmedia247.com/api/v1/redoc](https://azmedia247.com/api/v1/redoc) | Tài liệu đặc tả kỹ thuật API chuẩn OpenAPI 3.0 |
+| **Giao diện Web Trực Tuyến** | [https://azmedia247.com](https://azmedia247.com) | Cổng thông tin hỗ trợ, Portal Khách hàng & Dashboard Quản trị |
+| **Swagger API Docs** | [https://azmedia247.com/api/v1/docs](https://azmedia247.com/api/v1/docs) | Tài liệu API tương tác trực tiếp |
+| **ReDoc API Docs** | [https://azmedia247.com/api/v1/redoc](https://azmedia247.com/api/v1/redoc) | Tài liệu API chuẩn OpenAPI / ReDoc |
 
----
+### 🔑 Danh Sách Tài Khoản Thử Nghiệm Theo Phân Quyền (Roles)
 
-## 🔑 2. Danh Sách Tài Khoản Thử Nghiệm Theo Phân Quyền (RBAC)
-
-Hệ thống áp dụng cơ chế kiểm soát truy cập dựa trên vai trò (**Role-Based Access Control**):
-
-| Vai trò (Role) | Email Đăng nhập | Mật khẩu | Phạm vi quyền hạn & Nghiệp vụ |
+| Vai trò (Role) | Email Đăng nhập | Mật khẩu | Quyền hạn & Nghiệp vụ |
 | :--- | :--- | :--- | :--- |
-| **Quản trị viên (ADMIN)** | `admin@cskh.vn` | `Admin@123` | Toàn quyền hệ thống: Cấu hình AI settings & Key Pool, quản lý người dùng, thiết lập SLA, xóa ticket, duyệt chuyển cấp khẩn cấp P1. |
-| **Trưởng nhóm (TEAM_LEAD)** | `lead@cskh.vn` | `Lead@123` | Giám sát vận hành toàn đội ngũ, phân bổ lại ticket, xử lý sự cố cấp P2, theo dõi cảnh báo vi phạm SLA và hiệu suất xử lý. |
-| **Kỹ thuật viên Tuyến 1 (SUPPORT_AGENT L1)** | `agent@cskh.vn` | `Agent@123` | Tiếp nhận ticket phân công tự động, xử lý theo runbook chuẩn, dùng AI Copilot sinh nháp câu trả lời, leo thang ticket lên Tuyến 2. |
-| **Kỹ thuật viên Tuyến 2 (SUPPORT_AGENT L2)** | `agent_l2@cskh.vn` | `Agent@123` | Xử lý các sự cố hệ thống lõi, hạ tầng mạng chuyên sâu, bug phần mềm và các ticket tự động leo thang do AI phát hiện bức xúc. |
-| **Người dùng yêu cầu (REQUESTER)** | `user@company.vn` | `User@123` | Gửi yêu cầu hỗ trợ (tạo ticket), tra cứu tiến độ, tương tác với Kỹ thuật viên, tra cứu FAQ và trò chuyện cùng Trợ lý AI. |
+| **Quản trị viên (ADMIN)** | `admin@cskh.vn` | `Admin@123` | Quản trị toàn hệ thống, cấu hình AI, quản lý người dùng, xử lý các sự cố khẩn cấp P1. |
+| **Trưởng nhóm (TEAM_LEAD)** | `lead@cskh.vn` | `Lead@123` | Giám sát vận hành, phân bổ công việc, xử lý sự cố cấp cao P2 và cảnh báo vi phạm SLA. |
+| **Kỹ thuật viên (SUPPORT_AGENT)** | `agent@cskh.vn` | `Agent@123` | Tiếp nhận và giải quyết ticket P3/P4, sử dụng AI Copilot để gợi ý trả lời & tóm tắt. |
+| **Người dùng (REQUESTER)** | `user@company.vn` | `User@123` | Gửi yêu cầu hỗ trợ kỹ thuật (tạo ticket), tra cứu tri thức & theo dõi tiến độ xử lý. |
 
 ---
 
-## ⚙️ 3. Cơ Chế Tự Động Định Tuyến & Cân Bằng Tải (Auto-Assignment Pipeline)
+## 🤖 2. Cơ Chế AI & Phân Quyền Tiếp Nhận Ticket
 
-Khi người dùng gửi một yêu cầu hỗ trợ, hệ thống backend FastAPI sẽ tự động điều phối ticket trong thời gian **dưới 800ms** qua 4 giai đoạn chuẩn ITIL:
-
-```
-                  [Người dùng Submit Ticket]
-                              │
-                              ▼
-        ┌───────────────────────────────────────────┐
-        │ 1. KHỬ KHUẨN DỮ LIỆU & PHÂN TÍCH AI KÉP   │
-        │ - PIIMasker: Xóa số điện thoại, email, OTP│
-        │ - asyncio.gather(AI Triage, Sentiment)    │
-        │ ➔ Output: Category, Priority, Sentiment   │
-        └─────────────────────┬─────────────────────┘
-                              │
-                              ▼
-        ┌───────────────────────────────────────────┐
-        │ 2. XÁC ĐỊNH CẤP ĐỘ HỖ TRỢ (L1 vs L2)      │
-        │ - Ưu tiên bình thường ────────► Tuyến 1 L1 │
-        │ - Khẩn cấp P1 / Phẫn nộ ──────► Tuyến 2 L2 │
-        └─────────────────────┬─────────────────────┘
-                              │
-                              ▼
-        ┌───────────────────────────────────────────┐
-        │ 3. ĐỊNH TUYẾN KỸ NĂNG (Skill-based Match) │
-        │ - Khớp 6 nhóm: NETWORK, SOFTWARE, ACCOUNT,│
-        │   DEVICE, ACCESS_RESOURCE, TECH_GUIDE     │
-        └─────────────────────┬─────────────────────┘
-                              │
-                              ▼
-        ┌───────────────────────────────────────────┐
-        │ 4. THUẬT TOÁN CÂN BẰNG TẢI LEAST-WORKLOAD │
-        │ - Đếm ticket đang mở (NEW, PROCESSING)    │
-        │ - Gán cho nhân sự có MIN(active_load)     │
-        │ - Hòa tải: Luân phiên Round-Robin         │
-        └─────────────────────┬─────────────────────┘
-                              │
-                              ▼
-                  [Khởi Động Đồng Hồ Đếm SLA]
-```
-
-### 👥 Thuật Toán Cân Bằng Tải Khi Có Nhiều Kỹ Thuật Viên Cùng Cấp (L1 / L2):
-1. **Ma trận tìm kiếm 3 tầng:**
-   - **Tầng 1 (Chuyên môn cao nhất):** Lọc nhân viên cùng cấp `support_level == level`, đang hoạt động `is_active == true` và có nhóm kỹ năng trùng khớp chính xác `skill_group == category_code`.
-   - **Tầng 2 (Mở rộng cùng cấp):** Nếu nhóm kỹ năng đó không có ai trực tuyến, hệ thống mở rộng tìm tất cả các nhân viên `SUPPORT_AGENT` ở cùng cấp level để hỗ trợ thay thế.
-   - **Tầng 3 (Dự phòng quản trị):** Nếu toàn bộ nhân sự cùng cấp vắng mặt, tự động chuyển quyền xử lý đến Team Lead hoặc Admin trực ban, bảo đảm không có ticket nào bị bỏ sót.
-2. **Cơ chế Least-Workload (Tải công việc tối thiểu):**
-   - Hệ thống thực thi câu lệnh SQL đếm số ticket chưa đóng (`NEW`, `PROCESSING`, `WAITING_CUSTOMER`) của từng ứng viên:
-     ```sql
-     SELECT assigned_agent_id, COUNT(id) AS active_load 
-     FROM tickets 
-     WHERE status IN ('NEW', 'PROCESSING', 'WAITING_CUSTOMER') 
-     GROUP BY assigned_agent_id 
-     ORDER BY active_load ASC;
-     ```
-   - Ticket mới lập tức được giao cho người có `MIN(active_load)`.
-3. **Xử lý khi hòa tải (Tie-Breaker):**
-   - Nếu 2 hoặc nhiều nhân viên có số lượng ticket bằng nhau, hệ thống sắp xếp theo chỉ mục cơ sở dữ liệu và tự động luân phiên sang người kế tiếp (**Round-Robin**), triệt tiêu tuyệt đối nguy cơ dồn việc lên một cá nhân.
+Hệ thống áp dụng luồng phân định rõ ràng giữa người gửi yêu cầu và đội ngũ kỹ thuật:
+- **Người tạo Ticket:** Chỉ tài khoản vai trò **Khách hàng (REQUESTER)** mới có quyền tạo ticket yêu cầu trợ giúp. Giao diện Admin/Agent được thiết kế tối ưu chỉ tập trung vào việc quản lý, giám sát và giải quyết sự cố.
+- **AI Triage & Tự Động Phân Cấp Xử Lý (Auto-Assignment):**
+  - Khi có ticket mới, AI phân tích nội dung để xác định danh mục và độ ưu tiên (`P1`, `P2`, `P3`, `P4`).
+  - **Mức P1 (Critical - Khẩn cấp toàn hệ thống):** Tự động điều phối đến **Admin** (`admin@cskh.vn`).
+  - **Mức P2 (High - Mức độ cao / diện rộng):** Tự động điều phối đến **IT Team Lead** (`lead@cskh.vn`).
+  - **Mức P3 / P4 (Medium / Low - Sự cố cá nhân / hỗ trợ thường):** Tự động phân công cho **Support Agent** (`agent@cskh.vn`).
+  - Kết hợp thuật toán **Cân bằng tải (Load Balancing)** theo số lượng ticket đang xử lý để tránh quá tải cho nhân sự.
 
 ---
 
-## 🚨 4. Cơ Chế Leo Thang L2 (Escalation Path) & Cam Kết SLA
+## 📋 3. Yêu Cầu Môi Trường (Prerequisites)
 
-### 🔄 Hai Luồng Chuyển Cấp Lên Tuyến 2 (L2):
-1. **Tự Động Leo Thang Bởi AI (AI Sentiment Auto-Escalation):**
-   - Mỗi khi khách hàng gửi ticket hoặc phản hồi trong bình luận, AI Sentiment phân tích mức độ cảm xúc.
-   - Nếu phát hiện cảm xúc tiêu cực, bức xúc hoặc khiếu nại gay gắt đạt ngưỡng tin cậy &ge; **0.82 (82%)**:
-     - Ticket được nâng cấp lên Tuyến 2, gán nhãn `AUTO_ESCALATED` và ghi nhận thời gian `escalated_at`.
-     - Hệ thống **tự động tạo một Ghi Chú Nội Bộ Bí Mật (`is_internal = True`)** chứa lý do chi tiết, đoạn trích câu nói bằng chứng (evidence) và điểm số AI để Kỹ thuật viên L2 nắm rõ tâm lý khách hàng mà khách hàng không nhìn thấy.
-     - Nếu chưa có chuyên gia L2 nào online ngay, ticket được đưa vào hàng chờ ưu tiên `L2_WAITING`.
-2. **Chuyển Cấp Thủ Công Bởi Kỹ Thuật Viên L1 (Manual Escalation):**
-   - Khi kỹ thuật viên L1 chẩn đoán thấy sự cố vượt thẩm quyền (sập database, lỗi hạ tầng mạng Router Core, lỗi mã nguồn ứng dụng), L1 bấm nút **"Chuyển cấp L2"** ngay trong giao diện chi tiết ticket và ghi rõ lý do bàn giao.
-
-### ⏱️ Bảng Cam Kết Mức Độ Dịch Vụ SLA Chuẩn ITIL:
-
-| Mức Ưu Tiên | Định Nghĩa & Phạm Vi Tác Động | Thời Gian Phản Hồi Đầu Tiên | Thời Gian Giải Quyết Xong |
-| :--- | :--- | :--- | :--- |
-| **CRITICAL_P1** | Sự cố tê liệt toàn hệ thống, gián đoạn dịch vụ diện rộng | **&le; 15 phút** | **&le; 60 phút (1 giờ)** |
-| **HIGH_P2** | Sự cố ảnh hưởng nhiều người dùng hoặc dịch vụ quan trọng | **&le; 30 phút** | **&le; 240 phút (4 giờ)** |
-| **MEDIUM_P3** | Sự cố mức độ vừa, ảnh hưởng một cá nhân hoặc nhóm nhỏ | **&le; 120 phút (2 giờ)** | **&le; 1.440 phút (24 giờ)** |
-| **LOW_P4** | Yêu cầu thông thường, hướng dẫn dịch vụ, cấp quyền mới | **&le; 480 phút (8 giờ)** | **&le; 4.320 phút (72 giờ)** |
+- **Docker & Docker Compose** (khuyến nghị trên môi trường Production & Staging).
+- Hoặc môi trường phát triển cục bộ:
+  - **Python 3.11+**
+  - **Node.js 20+ & npm**
+  - **MySQL 8.0+**
+  - **Redis Server 7+**
 
 ---
 
-## 🧠 5. Cơ Chế RAG, AI Copilot & Hướng Dẫn Kỹ Thuật
-
-1. **Kho Tri Thức RAG (Retrieval-Augmented Generation):**
-   - Lưu trữ **1.006 chunks ngữ nghĩa** trích xuất từ 179 runbook kỹ thuật trong tài liệu nội bộ `So-tay-RAG.docx`.
-   - Kết hợp thuật toán tìm kiếm lai **Hybrid Search**: Khớp từ khóa chuyên ngành BM25 kết hợp Vector Cosine Similarity (1.536 chiều).
-   - Bổ sung Runbook chuẩn hóa `DEV-001` hướng dẫn chi tiết quy trình cài đặt môi trường lập trình (Python, PATH, pip, venv...).
-2. **Nguyên Tắc Chống Ảo Tưởng (Zero-Hallucination Grounding):**
-   - AI bắt buộc phải trả lời dựa trên tài liệu tham chiếu có sẵn, trích dẫn mã bài viết chuẩn (vd: `[NET-002]`, `[ACC-001]`, `[DEV-001]`).
-   - Đối với các yêu cầu kỹ thuật thực tế (như cài Python, VSCode, Git...), AI cung cấp chi tiết từng bước kỹ thuật rõ ràng (trang tải chính thức, lưu ý tick Add to PATH, lệnh kiểm tra phiên bản trong Terminal) thay vì từ chối cứng nhắc.
-3. **AI Copilot (Hỗ Trợ Nhân Viên):**
-   - Nút **"Gợi ý phản hồi AI"** trong màn hình xử lý ticket giúp nhân viên soạn nhanh câu trả lời chuẩn mực kèm huy hiệu tỷ lệ % tin cậy (**AI Confidence Badge**). Nhân viên có toàn quyền kiểm tra, chỉnh sửa trước khi gửi cho khách hàng.
-4. **Trợ Lý Ảo Chatbot 24/7 (Floating Widget):**
-   - Tự động giải đáp thắc mắc, hướng dẫn xử lý lỗi tức thì; hỗ trợ tạo nhanh ticket nếu sự cố phức tạp.
-
----
-
-## 🛡️ 6. An Toàn Thông Tin & Bảo Mật Dữ Liệu (Security & PII)
-
-- **Bộ lọc PIIMasker:** Tự động quét và che giấu toàn bộ số điện thoại `[PHONE_REDACTED]`, email cá nhân `[EMAIL_REDACTED]`, mật khẩu, token trước khi dữ liệu được gửi đến API của các mô hình AI bên ngoài.
-- **Xoay Vòng Đa Khóa AI (Multi-Key Rotation Pool):** Quản lý tập trung các khóa API Google Gemini, Cohere, Groq. Tự động chuyển khóa sau 10ms khi chạm ngưỡng giới hạn 429 Rate Limit và tự hồi phục sau thời gian cooldown.
-- **Hủy Phiên Tức Thì Với Redis Blacklist:** Thu hồi hiệu lực token JWT ngay lập tức trên Redis khi người dùng đăng xuất hoặc đổi mật khẩu, khắc phục nhược điểm của Stateless JWT truyền thống.
-- **Bảo Vệ Mã Nguồn GitHub:** Tự động lọc bỏ các secret, mật khẩu DB thực tế trước khi push lên kho lưu trữ công khai.
-
----
-
-## 🏗️ 7. Kiến Trúc Hạ Tầng Container (DevOps)
-
-Hệ thống được tổ chức theo kiến trúc container hóa độc lập gồm 4 service chính:
-
-```
-[Khách hàng & Trình duyệt Web]
-              │
-              ▼ (HTTPS / HTTP)
-┌───────────────────────────────────────────────┐
-│ 1. CONTAINER NGINX REVERSE PROXY (Alpine)     │
-│ - SSL Certificate Let's Encrypt / Certbot     │
-│ - Gzip Level 6 Compression                    │
-│ - Phân phối Frontend React Vite Static Bundle │
-│ - Proxy Pass /api/v1 -> Backend Container     │
-└──────────────────────┬────────────────────────┘
-                       │
-                       ▼ (Internal Docker Network)
-┌───────────────────────────────────────────────┐
-│ 2. CONTAINER BACKEND FASTAPI (Python 3.11)    │
-│ - Uvicorn ASGI Server Asynchronous I/O       │
-│ - SQLAlchemy 2.0 AsyncSession + Pydantic v2   │
-│ - AI Engine Pipeline & Key Rotation Manager   │
-│ - Background Tasks gửi Email SMTP             │
-└──────────────┬────────────────┬───────────────┘
-               │                │
-               ▼                ▼
-┌─────────────────────────┐  ┌─────────────────────────┐
-│ 3. CONTAINER MYSQL 8.0  │  │ 4. CONTAINER REDIS 7    │
-│ - Dữ liệu quan hệ       │  │ - JWT Token Blacklist   │
-│ - Users, Tickets, SLA   │  │ - Rate Limiting         │
-│ - RAG Chunks & Logs     │  │ - Session Caching       │
-└─────────────────────────┘  └─────────────────────────┘
-```
-
----
-
-## 🐳 8. Hướng Dẫn Vận Hành & Khởi Động Hệ Thống
+## 🐳 4. Vận Hành Nhanh Với Docker Compose
 
 ### Bước 1: Điều hướng vào thư mục dự án
 ```bash
-cd /root/CSKH
+cd /root/CSKH/CSKH
 ```
 
-### Bước 2: Khởi động hệ thống với Docker Compose
+### Bước 2: Khởi động hệ thống
 ```bash
-docker compose -f compose.production.yml up -d --build
+docker compose up -d --build
 ```
 
-### Bước 3: Kiểm tra trạng thái hoạt động của các Containers
+### Bước 3: Khởi tạo dữ liệu mẫu (Seeding)
 ```bash
-docker compose -f compose.production.yml ps
+# Khởi tạo roles, chính sách SLA, danh mục và các tài khoản mẫu
+docker compose exec backend python scripts/seed_db.py
+
+# Khởi tạo danh sách ticket mẫu để kiểm tra báo cáo & KPI
+docker compose exec backend python scripts/seed_tickets.py
 ```
 
-### Bước 4: Khởi tạo dữ liệu mẫu (Seeding)
+### Bước 4: Build và cập nhật Frontend
 ```bash
-# Khởi tạo roles, chính sách SLA, danh mục và tài khoản quản trị ban đầu
-docker compose -f compose.production.yml exec v2-backend python scripts/seed_db.py
-
-# Khởi tạo danh sách ticket mẫu để kiểm tra KPI & Báo cáo
-docker compose -f compose.production.yml exec v2-backend python scripts/seed_tickets.py
-```
-
-### Bước 5: Build và cập nhật Frontend (Khi có thay đổi code)
-```bash
-cd /root/CSKH/frontend
-node ./node_modules/vite/bin/vite.js build
-docker compose -f /root/CSKH/compose.production.yml restart v2-nginx
+docker compose exec frontend npm run build
+docker compose restart nginx frontend
 ```
 
 ---
 
-## 🗂️ 9. Cấu Trúc Thư Mục Dự Án
+## ⚙️ 5. Cấu Hình Biến Môi Trường (`.env`)
+
+Mẫu cấu hình môi trường chuẩn tại `backend/.env`:
+
+```ini
+# Database & Cache
+DATABASE_URL=mysql+aiomysql://root:password@mysql_host:3306/servicedesk
+REDIS_URL=redis://redis:6379/0
+
+# Server & JWT Authentication
+HOST=0.0.0.0
+PORT=8000
+JWT_SECRET_KEY=super-secret-key-for-local-dev
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=1440
+
+# AI Provider Configuration (Google Gemini / OpenAI / Groq)
+AI_PROVIDER=gemini
+GEMINI_API_KEY=your_gemini_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Cấu hình gửi thông báo Email / OTP (SMTP Gmail)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASSWORD=your_app_password
+SMTP_FROM_EMAIL=your_email@gmail.com
+SMTP_FROM_NAME="IT Service Desk"
+SMTP_TLS=true
+```
+
+---
+
+## 🗂️ 6. Cấu Trúc Thư Mục Dự Án
 
 ```text
 CSKH/
-├── backend/                       # Ứng dụng Backend FastAPI (Python 3.11)
+├── backend/                  # Ứng dụng Backend FastAPI
+│   ├── alembic/             # Migrations cơ sở dữ liệu
 │   ├── app/
-│   │   ├── ai/                   # AI Engine: Triage, Sentiment, Copilot, PIIMasker, KeyManager
-│   │   ├── api/v1/               # RESTful Endpoints: auth, tickets, knowledge, rag, users, settings
-│   │   ├── core/                 # Cấu hình hệ thống, Database Session, Redis, Security JWT
-│   │   ├── data/                 # Cấu hình động AI Settings, Article Stats
-│   │   ├── models/               # SQLAlchemy Models: Ticket, User, Role, SLA, RAGChunk, AILog
-│   │   ├── schemas/              # Pydantic Schemas xác thực dữ liệu vào/ra
-│   │   └── services/             # Nghiệp vụ Ticket, Cân bằng tải, RAG, Email SMTP
-│   ├── scripts/                  # Scripts khởi tạo dữ liệu ban đầu
-│   ├── Dockerfile                # Image build Backend
-│   └── requirements.txt          # Danh sách thư viện Python
-├── frontend/                      # Ứng dụng Frontend Single Page App (React 18 + Vite + TailwindCSS)
+│   │   ├── ai/              # AI Engine (Triage, Copilot, PII Masker, Gemini/OpenAI Client)
+│   │   ├── api/v1/          # RESTful Endpoints (auth, tickets, reports, users, settings)
+│   │   ├── core/            # Config, kết nối DB, Redis, Security JWT
+│   │   ├── models/          # SQLAlchemy Models (Ticket, User, Role, SLA, Category, Comment...)
+│   │   ├── schemas/         # Pydantic Schemas validation
+│   │   └── services/        # Nghiệp vụ xử lý ticket, phân luồng SLA, auto-assignment
+│   ├── scripts/             # Scripts seed dữ liệu khởi tạo ban đầu
+│   ├── Dockerfile
+│   └── requirements.txt
+├── frontend/                 # Ứng dụng Frontend React + Vite + TailwindCSS
 │   ├── src/
-│   │   ├── components/           # UI Components: Layout, AuthBackground, ChatWidget, MarkdownView
-│   │   ├── pages/                # TicketsPage, ThongTinWebPage (/all), DashboardPage, LoginPage...
-│   │   ├── services/             # Axios API Clients & TanStack Query
-│   │   └── types/                # Kiểu dữ liệu TypeScript
-│   ├── package.json              # Thư viện npm
-│   └── vite.config.ts            # Cấu hình Vite build
-├── nginx.production.conf          # Cấu hình Nginx Reverse Proxy, SSL, Cache-Control & Gzip
-├── compose.production.yml         # File điều phối Docker Compose môi trường Production
-├── So-tay-RAG.docx               # Sổ tay chuẩn IT 179 runbooks nguồn cho RAG Engine
-└── README.md                     # Tài liệu hướng dẫn cài đặt & vận hành hệ thống
+│   │   ├── components/      # UI components, Layout, ChatWidget, ProtectedRoute
+│   │   ├── pages/           # TicketsPage, DashboardPage, CustomersPage, KnowledgePage...
+│   │   ├── services/        # Axios API clients
+│   │   └── types/           # Định nghĩa kiểu dữ liệu TypeScript
+│   ├── Dockerfile
+│   └── package.json
+├── nginx.conf                # Cấu hình Nginx Reverse Proxy, SSL & Gzip Compression
+├── docker-compose.yml        # Điều phối các dịch vụ Docker (Backend, Frontend, Nginx, Redis)
+└── README.md                 # Hướng dẫn chi tiết hệ thống
 ```
 
----
+## ⚙️ Cơ Chế Tự Động Định Tuyến & Phân Công Ticket (Auto-Assignment & AI Triage)
 
-## 📞 Hỗ Trợ & Liên Hệ
-Mọi câu hỏi và đóng góp kỹ thuật xin vui lòng truy cập chuyên trang kỹ thuật trực tiếp tại **[https://azmedia247.com/all](https://azmedia247.com/all)** hoặc liên hệ đội ngũ phát triển Nhóm 10.
+Khi người dùng gửi một yêu cầu hỗ trợ (Ticket), hệ thống IT Service Desk sẽ xử lý tự động qua 4 bước chuẩn ITIL:
+
+```
+[Người dùng gửi Ticket]
+          │
+          ▼
+   1. AI TRIAGE & SENTIMENT
+   (Phân loại danh mục, mức ưu tiên P1-P4 & phát hiện bức xúc)
+          │
+          ▼
+   2. XÁC ĐỊNH CẤP HỖ TRỢ (L1 vs L2)
+   - Bình thường ───────────────────────────────► Tầng L1 (Tuyến đầu)
+   - Khẩn cấp / AI phát hiện rủi ro cao ────────► Tầng L2 (Chuyên gia)
+          │
+          ▼
+   3. ĐỊNH TUYẾN THEO CHUYÊN MÔN (Skill-based Routing)
+   (Khớp nhóm kỹ năng: ACCOUNT_AUTH, NETWORK_INFRA, SOFTWARE_BUG,...)
+          │
+          ▼
+   4. CÂN BẰNG TẢI (Least-Workload Load Balancing)
+   (Chọn nhân viên có ít ticket đang xử lý nhất)
+```
+
+### 👥 Trường hợp có nhiều nhân viên cùng cấp (Ví dụ: 2 Kỹ thuật viên L1):
+1. **Ai ít việc hơn thì nhận:** Hệ thống đếm số ticket đang mở (`NEW`, `PROCESSING`, `WAITING_CUSTOMER`) của từng nhân viên. Người có tải công việc thấp nhất sẽ được giao ticket mới.
+2. **Nếu số lượng ticket bằng nhau:** Hệ thống chỉ định theo thứ tự hàng đợi ưu tiên trong cơ sở dữ liệu (`active_count ASC`). Ticket kế tiếp sẽ tự động luân phiên sang người còn lại.
+3. **Khi cần Chuyển cấp (Escalation):** Nếu người dùng bức xúc hoặc sự cố vượt quá thẩm quyền của L1, AI sẽ tự động kích hoạt leo thang lên tầng **L2** tương ứng thay vì chuyển ngang giữa các L1.
