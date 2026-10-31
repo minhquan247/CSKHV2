@@ -15,15 +15,21 @@ import {
   Compass
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { AuthBackground } from '../components/AuthBackground';
 
 export default function ThongTinWebPage() {
   const [activeTab, setActiveTab] = useState<'architecture' | 'ai_triage' | 'l1_l2' | 'rag' | 'security'>('ai_triage');
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-slate-100 flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen relative text-slate-100 flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+      {/* Nền động chuyển cảnh đa tầng như trang đăng nhập */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <AuthBackground />
+      </div>
+      <div className="relative z-10 flex flex-col min-h-screen">
       
       {/* Top Standalone Header */}
-      <header className="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+      <header className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-500/20">
             <Compass className="w-4 h-4 text-white" />
@@ -366,10 +372,10 @@ export default function ThongTinWebPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 py-4 px-4 text-center text-xs text-slate-500">
+      <footer className="border-t border-slate-800/80 bg-slate-950/70 backdrop-blur-md py-4 px-4 text-center text-xs text-slate-400 mt-auto">
         © 2026 CSKH IT Service Desk • Trang nội bộ tài liệu kiến trúc & phân tích AI
       </footer>
-
+      </div>
     </div>
   );
 }
