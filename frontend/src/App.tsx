@@ -16,6 +16,7 @@ import KnowledgePage from './pages/KnowledgePage';
 import FaqPage from './pages/FaqPage';
 import ProfilePage from './pages/ProfilePage';
 import CommitsPage from './pages/CommitsPage';
+import ThongTinWebPage from './pages/ThongTinWebPage';
 
 const queryClient = new QueryClient();
 
@@ -149,6 +150,7 @@ function App() {
             <Route path="/customers" element={<ProtectedRoute allowedRoles={['ADMIN']}><CustomersPage /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute allowedRoles={['ADMIN']}><SettingsPage /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <Route path="/thongtinweb" element={<ProtectedRoute><ThongTinWebPage /></ProtectedRoute>} />
             
             {/* Catch-all redirect to Home */}
             <Route path="*" element={<Navigate to="/" replace />} />

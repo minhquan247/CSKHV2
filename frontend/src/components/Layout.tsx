@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Ticket as TicketIcon, Users, Settings, Globe, 
   Bell, Search, Menu, LogOut, Plus, AlertCircle, CheckCircle2,
   X, BookOpen, User as UserIcon, ChevronDown, PanelLeftClose, PanelLeftOpen,
-  HelpCircle, CheckCheck
+  HelpCircle, CheckCheck, Info
 } from 'lucide-react';
 import { authApi } from '../services/authApi';
 import { notificationApi } from '../services/knowledgeApi';
@@ -100,6 +100,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         { path: '/tickets/new', label: 'Gửi yêu cầu hỗ trợ', icon: Plus },
         { path: '/knowledge', label: 'Kho tri thức', icon: BookOpen },
         { path: '/faq', label: 'Hỏi đáp & FAQ', icon: HelpCircle },
+        { path: '/thongtinweb', label: 'Thông tin hệ thống', icon: Info },
       ]
     : [
         { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -108,6 +109,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         { path: '/knowledge', label: 'Kho tri thức', icon: BookOpen },
         { path: '/faq', label: 'Hỏi đáp & FAQ', icon: HelpCircle },
         ...(isAdmin ? [{ path: '/settings', label: 'Cài đặt AI & SLA', icon: Settings }] : []),
+        { path: '/thongtinweb', label: 'Thông tin hệ thống', icon: Info },
       ];
 
   const userKey = currentUser?.id ? String(currentUser.id) : (currentUser?.email || 'default_user');
