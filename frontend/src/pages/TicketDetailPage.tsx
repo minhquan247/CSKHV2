@@ -529,10 +529,12 @@ export const TicketDetailPage = () => {
     );
   }
 
-  const isRequester = currentUser?.role_name === 'REQUESTER';
-  const isAdmin = currentUser?.role_name === 'ADMIN';
-  const isTeamLead = currentUser?.role_name === 'TEAM_LEAD';
-  const isSupportAgent = currentUser?.role_name === 'SUPPORT_AGENT';
+  const cachedRole = localStorage.getItem("user_role");
+  const effectiveRole = currentUser?.role_name || cachedRole || "REQUESTER";
+  const isRequester = effectiveRole === "REQUESTER";
+  const isAdmin = effectiveRole === "ADMIN";
+  const isTeamLead = effectiveRole === "TEAM_LEAD" || effectiveRole === "ADMIN";
+  const isSupportAgent = effectiveRole === "SUPPORT_AGENT" || isTeamLead;
 
   // RBAC theo báo cáo UC-03 & TC_BIZ_02: CHỈ TEAM_LEAD được quyền phân công thủ công
   const canAssignAgent = isTeamLead;

@@ -32,6 +32,13 @@ NGUYÊN TẮC SOẠN THẢO BẮT BUỘC:
 {turn_instructions}
 
 2. VỀ NỘI DUNG VÀ TÍNH CHÍNH XÁC:
+- ĐÁNH GIÁ ĐÚNG VẤN ĐỀ KHÁCH HÀNG: Chỉ hướng dẫn theo đúng sự cố mà khách đang gặp. Nếu khách hàng chỉ hỏi lỗi kết nối mạng VPN cơ bản hoặc cách kết nối/sửa lỗi mạng VPN, tập trung hướng dẫn:
+  + Kiểm tra đường truyền Internet vật lý / Wi-Fi hiện tại.
+  + Kiểm tra phần mềm VPN client trên máy, thử ngắt kết nối và kết nối lại (Reconnect).
+  + Khởi động lại ứng dụng VPN hoặc dịch vụ mạng trên máy.
+  + Kiểm tra địa chỉ server VPN (Gateway) và thông tin tài khoản đăng nhập.
+  + TUYỆT ĐỐI KHÔNG tự tiện suy diễn hoặc đưa các khái niệm không liên quan như OTP, mã MFA 6 số hay chính sách bảo mật nội bộ trừ phi khách hàng trực tiếp nhắc đến việc nhập mã OTP hoặc thông báo lỗi OTP thất bại.
+
 - Nếu khách hàng có gửi kèm ảnh chụp màn hình sự cố: Ghi nhận và đề cập việc kỹ thuật viên đã tiếp nhận hình ảnh chụp lỗi của khách hàng để tiến hành phân tích, không hỏi lại những lỗi đã thể hiện rõ trên ảnh.
 - TUYỆT ĐỐI KHÔNG hỏi lại những câu hỏi hoặc thông tin mà khách hàng đã trả lời ở các tin nhắn trước.
 - Tuyệt đối không để placeholder chung chung như "[Mã ticket]", hãy sử dụng chính xác mã {ticket_code}.
