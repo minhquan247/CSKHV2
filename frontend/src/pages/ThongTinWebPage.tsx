@@ -8,644 +8,822 @@ import {
   Database, 
   Server, 
   CheckCircle2, 
-  ArrowLeft,
-  BookOpen,
-  Lock,
-  Users,
-  Compass,
-  Sparkles,
-  ArrowRight,
-  HelpCircle,
-  FileText,
-  AlertTriangle,
-  Clock,
-  Layers,
-  Search,
-  Code,
-  Shield,
-  Activity,
-  ChevronRight,
-  TrendingUp,
-  CpuIcon
+  ArrowLeft, 
+  BookOpen, 
+  Lock, 
+  Users, 
+  Compass, 
+  Clock, 
+  AlertTriangle, 
+  Layers, 
+  Sparkles, 
+  Search, 
+  RefreshCw, 
+  Flame, 
+  Eye, 
+  Key, 
+  FileCode, 
+  Activity, 
+  GitBranch, 
+  CornerDownRight, 
+  MessageSquare 
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { AuthBackground } from '../components/AuthBackground';
 
 export default function ThongTinWebPage() {
-  const [activeTab, setActiveTab] = useState<'ai_triage' | 'l1_l2' | 'rag' | 'architecture' | 'security'>('ai_triage');
+  const [activeTab, setActiveTab] = useState<'ai_triage' | 'load_balance' | 'escalation_sla' | 'rag_knowledge' | 'architecture' | 'security_pii'>('ai_triage');
 
   return (
-    <div className="min-h-screen bg-[#070b12] text-slate-200 flex flex-col antialiased selection:bg-indigo-500 selection:text-white relative font-sans">
+    <div className="min-h-screen relative text-slate-100 flex flex-col antialiased selection:bg-indigo-500 selection:text-white font-sans overflow-x-hidden">
       
-      {/* Background Ambience & Deep Glows */}
-      <div className="fixed -top-40 left-1/4 w-[650px] h-[650px] bg-gradient-to-br from-indigo-900/25 to-blue-900/10 rounded-full blur-[150px] pointer-events-none -z-10" />
-      <div className="fixed top-1/3 -right-20 w-[550px] h-[550px] bg-purple-900/15 rounded-full blur-[160px] pointer-events-none -z-10" />
-      <div className="fixed -bottom-40 left-10 w-[500px] h-[500px] bg-sky-950/20 rounded-full blur-[140px] pointer-events-none -z-10" />
+      {/* Nền động không gian mạng, Datacenter & Cyber SOC tương tự giao diện Login */}
+      <div className="fixed inset-0 z-0 pointer-events-none select-none overflow-hidden">
+        <AuthBackground />
+      </div>
 
-      {/* Grid subtle pattern */}
-      <div 
-        className="fixed inset-0 pointer-events-none opacity-[0.03] -z-10"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0)',
-          backgroundSize: '36px 36px'
-        }}
-      />
-
-      {/* Top Standalone Header */}
-      <header className="border-b border-slate-800/80 bg-[#0a0f18]/90 backdrop-blur-xl sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-lg shadow-black/20">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-sky-500 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-500/25 border border-indigo-400/30">
-            <Compass className="w-5 h-5 text-white animate-pulse" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-sm sm:text-base text-white tracking-tight block">CSKH IT Service Desk</span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">v2.4 Enterprise</span>
-            </div>
-            <span className="text-[11px] text-slate-400 font-medium">Bản giải trình chi tiết thuật toán &amp; kiến trúc AI Triage, RAG, L1/L2</span>
-          </div>
-        </div>
-
-        <Link 
-          to="/" 
-          className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 px-3.5 py-1.5 rounded-lg transition-all inline-flex items-center gap-2 cursor-pointer shadow-sm hover:border-indigo-500/40"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 text-slate-400" />
-          <span>Về trang chủ</span>
-        </Link>
-      </header>
-
-      {/* Main Content Container */}
-      <main className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1">
+      {/* Lớp nội dung nổi phía trên */}
+      <div className="relative z-10 flex flex-col min-h-screen">
         
-        {/* Hero Card Banner */}
-        <div className="bg-gradient-to-br from-[#0e1626]/95 via-[#0c121e]/90 to-[#070b12] rounded-3xl p-6 sm:p-10 shadow-2xl border border-slate-800/80 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-indigo-500/10 via-purple-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-10 left-1/3 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/15 border border-indigo-500/30 rounded-full text-xs font-semibold text-indigo-300">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-              <span>Chuyên Trang Kỹ Thuật Độc Lập • Toàn Diện &amp; Rõ Ràng</span>
+        {/* Top Sticky Header */}
+        <header className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-2xl">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">
+              <Compass className="w-5 h-5 text-white animate-spin-slow" />
             </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-              Tài Liệu Chi Tiết: Toàn Bộ Logic Vận Hành &amp; AI ServiceDesk
-            </h1>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-              Giải thích tường tận từ lúc khách hàng gửi Ticket: AI xử lý phân loại ngôn ngữ tự nhiên như thế nào, 
-              cơ chế cân bằng tải <strong className="text-indigo-300">Least-Connections</strong> phân chia cho kỹ thuật viên L1, 
-              điều kiện kích hoạt chuyển cấp L2 (Escalation), và cách công nghệ <strong className="text-indigo-300">Hybrid RAG</strong> trích xuất chính xác 178 bài viết tri thức nội bộ.
-            </p>
-          </div>
-        </div>
-
-        {/* Navigation Tabs Bar */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800/80 no-scrollbar">
-          {[
-            { id: 'ai_triage', label: '1. Định Tuyến & AI Triage (4 Bước)', icon: Workflow },
-            { id: 'l1_l2', label: '2. Phân Bổ Nhân Viên L1 vs L2', icon: Users },
-            { id: 'rag', label: '3. Cơ Chế RAG & Kho 178 Tri Thức', icon: Database },
-            { id: 'architecture', label: '4. Kiến Trúc Hạ Tầng & Công Nghệ', icon: Server },
-            { id: 'security', label: '5. An Toàn Dữ Liệu & Masking PII', icon: ShieldCheck },
-          ].map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 inline-flex items-center gap-2.5 cursor-pointer ${
-                  isActive 
-                    ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-600/30 border border-indigo-400/40' 
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-[#111827]/90 bg-[#0c121e]/80 border border-slate-800/90'
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* ========================================================================= */}
-        {/* TAB 1: Cơ Chế Định Tuyến & AI Triage (Giải thích cực chi tiết) */}
-        {/* ========================================================================= */}
-        {activeTab === 'ai_triage' && (
-          <div className="space-y-6 animate-in fade-in duration-200">
-            <div className="bg-[#0e1626]/90 rounded-3xl border border-slate-800/90 p-6 sm:p-9 space-y-8 shadow-xl">
-              
-              <div className="border-b border-slate-800/80 pb-5">
-                <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">
-                  <Workflow className="w-4 h-4" />
-                  Quy Trình Tự Động Hóa Chuẩn ITIL
-                </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  Quy Trình 4 Bước Tiếp Nhận &amp; Phân Phối Ticket Tự Động
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed">
-                  Khi người dùng gửi yêu cầu, hệ thống không để ticket nằm chờ phân loại thủ công mà lập tức kích hoạt chuỗi xử lý AI đa tầng diễn ra trong vòng dưới 2 giây.
-                </p>
-              </div>
-
-              {/* 4 Steps Visual Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800/90 space-y-3 relative overflow-hidden group hover:border-indigo-500/40 transition-all">
-                  <div className="w-8 h-8 rounded-xl bg-indigo-600/30 text-indigo-400 border border-indigo-500/40 flex items-center justify-center font-bold text-sm">1</div>
-                  <h3 className="font-bold text-white text-sm">Thu Thập &amp; Masking PII</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Hệ thống nhận tiêu đề và mô tả, tự động che mờ số điện thoại, email cá nhân, mật khẩu nhạy cảm trước khi gửi đi phân tích.
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800/90 space-y-3 relative overflow-hidden group hover:border-blue-500/40 transition-all">
-                  <div className="w-8 h-8 rounded-xl bg-blue-600/30 text-blue-400 border border-blue-500/40 flex items-center justify-center font-bold text-sm">2</div>
-                  <h3 className="font-bold text-white text-sm">AI Triage &amp; Phân Tích Cảm Xúc</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Mô hình AI đọc hiểu ngữ cảnh tự nhiên để xác định: Danh mục sự cố, Mức ưu tiên (P1-P4), Điểm độ tin cậy, và Cảm xúc tiêu cực/khẩn cấp.
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800/90 space-y-3 relative overflow-hidden group hover:border-amber-500/40 transition-all">
-                  <div className="w-8 h-8 rounded-xl bg-amber-600/30 text-amber-400 border border-amber-500/40 flex items-center justify-center font-bold text-sm">3</div>
-                  <h3 className="font-bold text-white text-sm">Tính Hạn SLA Tự Động</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Dựa vào mức ưu tiên (P1-P4), hệ thống tự động gắn mốc Deadline phản hồi lần đầu (First Response) và Deadline giải quyết triệt để (Resolve Due).
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800/90 space-y-3 relative overflow-hidden group hover:border-emerald-500/40 transition-all">
-                  <div className="w-8 h-8 rounded-xl bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-sm">4</div>
-                  <h3 className="font-bold text-white text-sm">Phân Công Cân Bằng Tải</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Truy vấn danh sách kỹ thuật viên L1 có kỹ năng trùng khớp, sau đó gán cho nhân viên đang nhận ít ticket nhất (Least-Connections).
-                  </p>
-                </div>
-              </div>
-
-              {/* Bảng Chi Tiết Phân Loại & SLA */}
-              <div className="space-y-4 pt-2">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-indigo-400" />
-                  Bảng Quy Chuẩn Ưu Tiên &amp; Cam Kết Cam Kết Dịch Vụ (SLA Policy)
-                </h3>
-                <div className="overflow-x-auto rounded-2xl border border-slate-800/90 bg-[#0a0f18]/90">
-                  <table className="w-full text-left text-xs sm:text-sm">
-                    <thead>
-                      <tr className="border-b border-slate-800 bg-[#121c30]/90 text-slate-300 font-semibold">
-                        <th className="py-3 px-4">Mức Ưu Tiên</th>
-                        <th className="py-3 px-4">Định Nghĩa Sự Cố</th>
-                        <th className="py-3 px-4">Hạn Phản Hồi (First Response)</th>
-                        <th className="py-3 px-4">Hạn Giải Quyết (Resolve)</th>
-                        <th className="py-3 px-4">Hành Động Hệ Thống</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-800/60 text-slate-300">
-                      <tr>
-                        <td className="py-3.5 px-4 font-bold text-red-400 flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-                          P1 - Khẩn Cấp (Critical)
-                        </td>
-                        <td className="py-3.5 px-4 text-slate-300">Sập hệ thống toàn công ty, nghẽn đường truyền mạng chính, khóa toàn bộ tài khoản kế toán/VIP.</td>
-                        <td className="py-3.5 px-4 font-mono font-semibold text-amber-300">15 phút</td>
-                        <td className="py-3.5 px-4 font-mono font-semibold text-amber-300">2 giờ</td>
-                        <td className="py-3.5 px-4 text-slate-400">Gửi thông báo tức thì, bật cờ HIGH RISK, cảnh báo chuông đỏ cho toàn đội.</td>
-                      </tr>
-                      <tr>
-                        <td className="py-3.5 px-4 font-bold text-amber-400">P2 - Mức Cao (High)</td>
-                        <td className="py-3.5 px-4 text-slate-300">Sự cố ảnh hưởng nguyên phòng ban hoặc nhóm nhân sự, phần mềm nghiệp vụ báo lỗi không xuất được file.</td>
-                        <td className="py-3.5 px-4 font-mono font-semibold text-amber-300">30 phút</td>
-                        <td className="py-3.5 px-4 font-mono font-semibold text-amber-300">4 giờ</td>
-                        <td className="py-3.5 px-4 text-slate-400">Ưu tiên điều hướng ngay cho nhân viên có chuyên môn sâu trong nhóm.</td>
-                      </tr>
-                      <tr>
-                        <td className="py-3.5 px-4 font-bold text-blue-400">P3 - Trung Bình (Medium)</td>
-                        <td className="py-3.5 px-4 text-slate-300">Lỗi máy in cá nhân, kẹt giấy, không vào được một trang web nội bộ đơn lẻ, quên pass cá nhân.</td>
-                        <td className="py-3.5 px-4 font-mono font-semibold text-slate-300">1 giờ</td>
-                        <td className="py-3.5 px-4 font-mono font-semibold text-slate-300">8 giờ (1 ngày)</td>
-                        <td className="py-3.5 px-4 text-slate-400">Gán theo thuật toán cân bằng tải Least-Connections thông thường.</td>
-                      </tr>
-                      <tr>
-                        <td className="py-3.5 px-4 font-bold text-slate-400">P4 - Thấp (Low)</td>
-                        <td className="py-3.5 px-4 text-slate-300">Yêu cầu hướng dẫn kỹ thuật, tài liệu, hỏi xin cấp thêm ứng dụng hỗ trợ tiện ích làm việc.</td>
-                        <td className="py-3.5 px-4 font-mono font-semibold text-slate-400">2 giờ</td>
-                        <td className="py-3.5 px-4 font-mono font-semibold text-slate-400">24 giờ (3 ngày)</td>
-                        <td className="py-3.5 px-4 text-slate-400">AI tự động gợi ý tài liệu hướng dẫn nhanh cho khách hàng đọc trước.</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Cơ Chế Độ Tin Cậy & Tự Động Phê Duyệt */}
-              <div className="p-5 rounded-2xl bg-[#121c30]/60 border border-slate-800/90 space-y-3">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-emerald-400" />
-                  Cơ Chế Đánh Giá Độ Tin Cậy (Confidence Score) &amp; Cờ Kiểm Soát
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
-                  <div className="space-y-1.5 p-3 rounded-xl bg-[#0a0f18]/80 border border-slate-800">
-                    <span className="font-bold text-emerald-400">Khi Độ Tin Cậy &ge; 70% (Confidence &ge; 0.7):</span>
-                    <p className="text-slate-400 leading-relaxed">
-                      AI nhận diện đầy đủ từ khóa và ngữ cảnh chuyên ngành. Hệ thống áp dụng ngay danh mục và mức độ ưu tiên mà không cần can thiệp của Quản trị viên (Cờ rủi ro: <span className="text-emerald-400 font-mono">NORMAL</span>).
-                    </p>
-                  </div>
-                  <div className="space-y-1.5 p-3 rounded-xl bg-[#0a0f18]/80 border border-slate-800">
-                    <span className="font-bold text-amber-400">Khi Độ Tin Cậy &lt; 70% hoặc Nội Dung Mơ Hồ:</span>
-                    <p className="text-slate-400 leading-relaxed">
-                      Hệ thống tự động bật cờ rủi ro <span className="text-amber-400 font-mono">CHECK_REQUIRED</span>. Ticket vẫn được giao cho L1 nhưng hiển thị badge cảnh báo để Kỹ thuật viên kiểm tra lại phân loại ban đầu.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 2: Phân Bổ Nhân Viên L1 vs L2 (Giải thích rõ ràng quy tắc) */}
-        {/* ========================================================================= */}
-        {activeTab === 'l1_l2' && (
-          <div className="space-y-6 animate-in fade-in duration-200">
-            <div className="bg-[#0e1626]/90 rounded-3xl border border-slate-800/90 p-6 sm:p-9 space-y-8 shadow-xl">
-              
-              <div className="border-b border-slate-800/80 pb-5">
-                <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">
-                  <Users className="w-4 h-4" />
-                  Mô Hình Phân Cấp Hỗ Trợ 2 Lớp ITIL
-                </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  Phân Biệt Nhiệm Vụ Nhân Viên L1 và Chuyên Gia Cấp L2
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed">
-                  Làm rõ nhiệm vụ chuyên biệt giữa tuyến đầu (L1) và tuyến chuyên sâu (L2), cùng điều kiện kích hoạt chuyển cấp tự động (Escalation).
-                </p>
-              </div>
-
-              {/* So Sánh Trực Quan L1 và L2 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                {/* Cột L1 */}
-                <div className="p-6 rounded-2xl bg-[#121c30]/80 border border-indigo-900/40 space-y-4 relative">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-lg text-xs font-bold border border-indigo-500/30">
-                    <span>TUYẾN 1 (LEVEL 1 - SUPPORT AGENT)</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-white">Tiếp Nhận Ban Đầu &amp; Xử Lý Nhanh</h3>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
-                      <span><strong>Nhiệm vụ chính:</strong> Tiếp nhận mọi ticket mới do AI phân phối theo nhóm kỹ năng (Skill Group).</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
-                      <span><strong>Phạm vi xử lý:</strong> Reset mật khẩu, cấu hình Outlook, sửa kẹt máy in, cấp quyền cơ bản, hướng dẫn sử dụng.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
-                      <span><strong>Công cụ hỗ trợ:</strong> AI Copilot gợi ý câu trả lời từ RAG, tóm tắt nội dung trao đổi, tạo checklist giải quyết nhanh.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
-                      <span><strong>Cân bằng tải:</strong> Được phân bổ đều bằng thuật toán Least-Connections (ưu tiên ai đang xử lý ít ticket nhất).</span>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Cột L2 */}
-                <div className="p-6 rounded-2xl bg-[#121c30]/80 border border-purple-900/40 space-y-4 relative">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold border border-purple-500/30">
-                    <span>TUYẾN 2 (LEVEL 2 - SPECIALIST AGENT)</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-white">Chuyên Gia Kỹ Thuật &amp; Sự Cố Phức Tạp</h3>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                      <span><strong>Nhiệm vụ chính:</strong> Chỉ nhận các ticket vượt quá thẩm quyền của L1 hoặc có tính chất nghiêm trọng.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                      <span><strong>Phạm vi xử lý:</strong> Phân tích lỗi Database/Server, điều tra mã độc, sự cố đường truyền mạng Switch/Router cốt lõi, lỗi bug phần mềm nghiệp vụ.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                      <span><strong>Bảo toàn lịch sử:</strong> Khi nhận chuyển cấp, toàn bộ tin nhắn nội bộ (Internal Notes) và lịch sử của L1 trước đó đều được bảo toàn.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                      <span><strong>Quyền hạn:</strong> Có quyền can thiệp cấu hình hệ thống, phối hợp với Team Lead và Quản trị viên (Admin).</span>
-                    </li>
-                  </ul>
-                </div>
-
-              </div>
-
-              {/* 3 Điều Kiện Chuyển Cấp Lên L2 (Escalation Trigger) */}
-              <div className="space-y-4 pt-2">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 text-amber-400" />
-                  3 Điều Kiện Kích Hoạt Chuyển Cấp Lên L2 (Escalation Triggers)
-                </h3>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-xl bg-[#0a0f18]/90 border border-slate-800 space-y-2">
-                    <div className="text-xs font-bold text-indigo-400">ĐIỀU KIỆN 1</div>
-                    <h4 className="font-bold text-white text-sm">Chuyển Cấp Thủ Công (Manual)</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      Kỹ thuật viên L1 sau khi kiểm tra nhận thấy sự cố liên quan đến quyền truy cập máy chủ gốc hoặc bug mã nguồn sẽ bấm nút <strong>Chuyển lên L2</strong>.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-[#0a0f18]/90 border border-slate-800 space-y-2">
-                    <div className="text-xs font-bold text-red-400">ĐIỀU KIỆN 2</div>
-                    <h4 className="font-bold text-white text-sm">AI Tự Động Quét Cảm Xúc (Sentiment)</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      Khi khách hàng phản hồi bằng lời lẽ bức xúc, giận dữ gay gắt hoặc đe dọa rời bỏ, AI quét và tự động chuyển ngay cho L2 có kinh nghiệm cao để giải quyết kịp thời.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-[#0a0f18]/90 border border-slate-800 space-y-2">
-                    <div className="text-xs font-bold text-amber-400">ĐIỀU KIỆN 3</div>
-                    <h4 className="font-bold text-white text-sm">Sự Cố Khẩn Cấp P1 / Hạ Tầng Rộng</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      Các ticket sập mạng chi nhánh, tê liệt hệ thống thanh toán hoặc rò rỉ dữ liệu được hệ thống tự động gắn mức P1 và đưa ngay vào hàng đợi ưu tiên của L2.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 3: Cơ Chế RAG & Kho 178 Tri Thức (Chi tiết thuật toán) */}
-        {/* ========================================================================= */}
-        {activeTab === 'rag' && (
-          <div className="space-y-6 animate-in fade-in duration-200">
-            <div className="bg-[#0e1626]/90 rounded-3xl border border-slate-800/90 p-6 sm:p-9 space-y-8 shadow-xl">
-              
-              <div className="border-b border-slate-800/80 pb-5">
-                <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">
-                  <Database className="w-4 h-4" />
-                  Retrieval-Augmented Generation (RAG) Architecture
-                </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  Cơ Chế RAG &amp; Quản Trị Kho 178 Bài Viết Tri Thức Kỹ Thuật
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed">
-                  Để AI trả lời đúng nghiệp vụ nội bộ công ty mà không bị "ảo giác" (hallucination), hệ thống sử dụng kiến trúc tìm kiếm lai Hybrid RAG trên 178 bài viết chuẩn hóa.
-                </p>
-              </div>
-
-              {/* Sơ đồ hoạt động RAG */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800 space-y-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-sm">A</div>
-                  <h3 className="font-bold text-white text-sm">Chunking &amp; Vector Embedding</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Tài liệu kỹ thuật được cắt nhỏ thành từng đoạn ngữ nghĩa (chunks 300-500 từ) có kèm metadata danh mục và chuyển hóa thành Vector Embedding đa chiều.
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800 space-y-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-sm">B</div>
-                  <h3 className="font-bold text-white text-sm">Tìm Kiếm Lai (Hybrid Semantic Search)</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Kết hợp <strong>Cosine Similarity</strong> giữa câu hỏi với Vector tri thức + Bộ lọc từ khóa danh mục (Category matching) để chọn lọc ra 3-5 bài viết liên quan nhất.
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800 space-y-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-sm">C</div>
-                  <h3 className="font-bold text-white text-sm">Trích Dẫn Nguồn (Grounding &amp; Citation)</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Câu trả lời đưa ra luôn đính kèm link bài viết gốc trong kho tri thức nội bộ để người dùng hoặc kỹ thuật viên có thể đối chiếu ngay lập tức.
-                  </p>
-                </div>
-              </div>
-
-              {/* Phân bổ 178 bài viết tri thức theo lĩnh vực */}
-              <div className="space-y-4 pt-2">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-indigo-400" />
-                  Phân Bổ 178 Bài Viết Tri Thức Nội Bộ (Knowledge Base Distribution)
-                </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-center">
-                  <div className="p-3.5 rounded-xl bg-[#0a0f18]/90 border border-slate-800">
-                    <div className="text-lg font-black text-indigo-400 font-mono">35</div>
-                    <div className="text-[11px] text-slate-300 font-medium mt-0.5">Tài Khoản &amp; 2FA</div>
-                  </div>
-                  <div className="p-3.5 rounded-xl bg-[#0a0f18]/90 border border-slate-800">
-                    <div className="text-lg font-black text-blue-400 font-mono">32</div>
-                    <div className="text-[11px] text-slate-300 font-medium mt-0.5">Mạng, WiFi, VPN</div>
-                  </div>
-                  <div className="p-3.5 rounded-xl bg-[#0a0f18]/90 border border-slate-800">
-                    <div className="text-lg font-black text-emerald-400 font-mono">28</div>
-                    <div className="text-[11px] text-slate-300 font-medium mt-0.5">Máy In &amp; Thiết Bị</div>
-                  </div>
-                  <div className="p-3.5 rounded-xl bg-[#0a0f18]/90 border border-slate-800">
-                    <div className="text-lg font-black text-amber-400 font-mono">30</div>
-                    <div className="text-[11px] text-slate-300 font-medium mt-0.5">Lỗi Phần Mềm</div>
-                  </div>
-                  <div className="p-3.5 rounded-xl bg-[#0a0f18]/90 border border-slate-800">
-                    <div className="text-lg font-black text-purple-400 font-mono">25</div>
-                    <div className="text-[11px] text-slate-300 font-medium mt-0.5">Cấp Quyền &amp; Folder</div>
-                  </div>
-                  <div className="p-3.5 rounded-xl bg-[#0a0f18]/90 border border-slate-800">
-                    <div className="text-lg font-black text-cyan-400 font-mono">28</div>
-                    <div className="text-[11px] text-slate-300 font-medium mt-0.5">Hướng Dẫn Khác</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Chống Prompt Injection trong RAG */}
-              <div className="p-4 rounded-xl bg-[#121c30]/70 border border-slate-800 text-xs text-slate-300 space-y-1.5">
-                <span className="font-bold text-indigo-400 flex items-center gap-1.5">
-                  <Shield className="w-3.5 h-3.5" />
-                  Cơ Chế Bảo Vệ Ngăn Chặn Prompt Injection:
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-extrabold text-sm text-white tracking-wide block">CSKH IT Service Desk</span>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  LIVE ARCHITECTURE
                 </span>
-                <p className="text-slate-400 leading-relaxed">
-                  Trước khi đưa văn bản từ người dùng hoặc tài liệu vào mô hình AI sinh câu trả lời, bộ lọc bảo mật kiểm tra các mẫu lệnh độc hại như <code>ignore previous instructions</code>, <code>system override</code>, <code>tiết lộ prompt nội bộ</code> để đảm bảo an toàn tuyệt đối.
-                </p>
               </div>
-
+              <span className="text-[11px] text-slate-400 font-mono">Tài liệu kỹ thuật nội bộ &amp; Cơ chế vận hành toàn hệ thống</span>
             </div>
           </div>
-        )}
 
-        {/* ========================================================================= */}
-        {/* TAB 4: Kiến Trúc Hạ Tầng & Công Nghệ (Trực quan, dễ hiểu) */}
-        {/* ========================================================================= */}
-        {activeTab === 'architecture' && (
-          <div className="space-y-6 animate-in fade-in duration-200">
-            <div className="bg-[#0e1626]/90 rounded-3xl border border-slate-800/90 p-6 sm:p-9 space-y-8 shadow-xl">
+          <div className="flex items-center gap-2.5">
+            <Link
+              to="/login"
+              className="hidden sm:inline-flex text-xs font-medium text-slate-300 hover:text-white bg-slate-800/70 hover:bg-slate-700/80 border border-slate-700/80 px-3 py-1.5 rounded-lg transition-all items-center gap-1.5"
+            >
+              <Key className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Đăng nhập</span>
+            </Link>
+            <Link
+              to="/"
+              className="text-xs font-semibold text-slate-200 hover:text-white bg-indigo-600/80 hover:bg-indigo-600 border border-indigo-500/50 px-3.5 py-1.5 rounded-lg transition-all inline-flex items-center gap-1.5 shadow-md shadow-indigo-600/30 cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Về trang chủ</span>
+            </Link>
+          </div>
+        </header>
+
+        {/* Main Content Container */}
+        <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1">
+          
+          {/* Hero Banner Section */}
+          <div className="bg-slate-900/85 backdrop-blur-xl rounded-2xl p-6 sm:p-10 shadow-2xl border border-slate-700/70 relative overflow-hidden">
+            {/* Glowing ambient accents inside card */}
+            <div className="absolute -top-20 -right-20 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute inset-0 auth-cyber-grid opacity-20 pointer-events-none" />
+
+            <div className="relative z-10 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/15 border border-indigo-400/30 rounded-full text-xs font-semibold text-cyan-300 backdrop-blur-md">
+                <Cpu className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+                <span>Chuyên Trang Kỹ Thuật Độc Lập • Mã Tài Liệu: CSKH-SPEC-2026</span>
+              </div>
               
-              <div className="border-b border-slate-800/80 pb-5">
-                <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">
-                  <Server className="w-4 h-4" />
-                  Full-Stack Architecture &amp; High Availability
-                </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  Kiến Trúc Hạ Tầng &amp; Công Nghệ Triển Khai
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed">
-                  Hệ thống hoạt động dưới dạng các dịch vụ đóng gói Docker Containers độc lập, đảm bảo hiệu năng tải cao, không nghẽn cổ chai và khả năng tự phục hồi.
-                </p>
-              </div>
-
-              {/* 4 Khối công nghệ cốt lõi */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800 space-y-3">
-                  <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
-                    <Code className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-bold text-indigo-400 uppercase tracking-wider">FRONTEND</span>
-                    <h4 className="font-bold text-white text-base">React 18 + Vite</h4>
-                  </div>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Giao diện đơn trang (SPA) tối ưu tốc độ render bằng Tailwind CSS v4, Lucide Icons, TanStack Query và định tuyến React Router v6.
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800 space-y-3">
-                  <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold">
-                    <Activity className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-bold text-blue-400 uppercase tracking-wider">BACKEND API</span>
-                    <h4 className="font-bold text-white text-base">FastAPI (Python 3.11)</h4>
-                  </div>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Xử lý bất đồng bộ AsyncIO, máy chủ ASGI Uvicorn, SQLAlchemy AsyncSession kết nối hồ sơ dữ liệu an toàn với chuẩn Pydantic v2.
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800 space-y-3">
-                  <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
-                    <Database className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider">STORAGE &amp; CACHE</span>
-                    <h4 className="font-bold text-white text-base">MySQL 8.0 &amp; Redis 7</h4>
-                  </div>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    MySQL lưu trữ quan hệ tickets và phân quyền RBAC. Redis quản lý hàng chờ, thu hồi token JWT và kiểm soát tần suất gửi yêu cầu (Rate Limit).
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800 space-y-3">
-                  <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
-                    <CpuIcon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider">AI ROTATION POOL</span>
-                    <h4 className="font-bold text-white text-base">Gemini + Cohere</h4>
-                  </div>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Pool đa khóa tự động xoay vòng key khi quá tải hoặc chạm giới hạn 429, đảm bảo dịch vụ AI phản hồi liên tục 24/7.
-                  </p>
-                </div>
-
-              </div>
-
-              {/* Sơ đồ luồng dữ liệu kiến trúc */}
-              <div className="p-5 rounded-2xl bg-[#0a0f18]/90 border border-slate-800 space-y-3">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-indigo-400" />
-                  Sơ Đồ Luồng Dữ Liệu Reverse Proxy &amp; SSL:
-                </h3>
-                <div className="p-3.5 rounded-xl bg-[#121c30]/60 border border-slate-800/80 font-mono text-xs text-slate-300 flex flex-wrap items-center gap-2 justify-center">
-                  <span className="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-indigo-300">Client / Browser</span>
-                  <span>&rarr;</span>
-                  <span className="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-emerald-300">Nginx Reverse Proxy (SSL 443)</span>
-                  <span>&rarr;</span>
-                  <span className="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-blue-300">FastAPI Async API (:8000)</span>
-                  <span>&rarr;</span>
-                  <span className="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-amber-300">MySQL &amp; Redis</span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 5: An Toàn Dữ Liệu & Masking PII (Bảo mật tối đa) */}
-        {/* ========================================================================= */}
-        {activeTab === 'security' && (
-          <div className="space-y-6 animate-in fade-in duration-200">
-            <div className="bg-[#0e1626]/90 rounded-3xl border border-slate-800/90 p-6 sm:p-9 space-y-8 shadow-xl">
+              <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                Toàn Bộ Kiến Trúc Vận Hành, Cơ Chế AI &amp; Luồng Xử Lý Ticket
+              </h1>
               
-              <div className="border-b border-slate-800/80 pb-5">
-                <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">
-                  <ShieldCheck className="w-4 h-4" />
-                  Data Privacy &amp; Secret Protection
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-4xl font-normal">
+                Hệ thống <strong>CSKH IT Service Desk</strong> được thiết kế theo tiêu chuẩn <strong>ITIL v4</strong>, tích hợp trí tuệ nhân tạo (AI Triage, Sentiment Analysis, RAG) nhằm tự động hóa quy trình phân loại, định tuyến nhóm chuyên môn, cân bằng tải Least-Workload giữa các kỹ thuật viên và leo thang bảo mật tức thì.
+              </p>
+
+              {/* Quick High-Level Metrics Badges */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-2">
+                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 backdrop-blur-sm">
+                  <div className="text-[11px] font-mono text-cyan-400 font-semibold uppercase">AI Triage</div>
+                  <div className="text-sm sm:text-base font-bold text-white mt-0.5">Phân Loại 4 Cấp</div>
+                  <div className="text-[10px] text-slate-400">P1 -&gt; P4 tự động</div>
                 </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  An Toàn Dữ Liệu &amp; Che Giấu Thông Tin Nhạy Cảm (PII Masking)
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed">
-                  Đảm bảo tuân thủ tiêu chuẩn an toàn thông tin doanh nghiệp trước khi gửi bất kỳ dữ liệu nào đến mô hình AI bên ngoài.
-                </p>
+
+                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 backdrop-blur-sm">
+                  <div className="text-[11px] font-mono text-indigo-400 font-semibold uppercase">Định Tuyến</div>
+                  <div className="text-sm sm:text-base font-bold text-white mt-0.5">6 Kỹ Năng</div>
+                  <div className="text-[10px] text-slate-400">Khớp chuẩn Skill Group</div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 backdrop-blur-sm">
+                  <div className="text-[11px] font-mono text-emerald-400 font-semibold uppercase">Cân Bằng Tải</div>
+                  <div className="text-sm sm:text-base font-bold text-white mt-0.5">Least-Workload</div>
+                  <div className="text-[10px] text-slate-400">Không dồn việc nhân viên</div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 backdrop-blur-sm">
+                  <div className="text-[11px] font-mono text-amber-400 font-semibold uppercase">Leo Thang L2</div>
+                  <div className="text-sm sm:text-base font-bold text-white mt-0.5">AI Sentiment</div>
+                  <div className="text-[10px] text-slate-400">Tự động khi &gt;= 0.82</div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 backdrop-blur-sm">
+                  <div className="text-[11px] font-mono text-purple-400 font-semibold uppercase">RAG Engine</div>
+                  <div className="text-sm sm:text-base font-bold text-white mt-0.5">1.006 Chunks</div>
+                  <div className="text-[10px] text-slate-400">179 Runbooks chuẩn IT</div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 backdrop-blur-sm">
+                  <div className="text-[11px] font-mono text-rose-400 font-semibold uppercase">An Toàn PII</div>
+                  <div className="text-sm sm:text-base font-bold text-white mt-0.5">Masking 100%</div>
+                  <div className="text-[10px] text-slate-400">Xóa dữ liệu nhạy cảm</div>
+                </div>
               </div>
-
-              {/* 3 Trụ cột an toàn */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800 space-y-3">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
-                    <Lock className="w-5 h-5" />
-                  </div>
-                  <h4 className="font-bold text-white text-base">Bộ Lọc PII Masker Tự Động</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Mọi đoạn hội thoại, tiêu đề và mô tả sự cố đều đi qua mô-đun lọc trước khi ra ngoài:
-                  </p>
-                  <ul className="text-xs text-slate-300 space-y-1.5 pl-3 list-disc">
-                    <li>Số điện thoại &rarr; <code>[PHONE_REDACTED]</code></li>
-                    <li>Email cá nhân &rarr; <code>[EMAIL_REDACTED]</code></li>
-                    <li>Password, OTP &rarr; Tự động cắt bỏ</li>
-                  </ul>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800 space-y-3">
-                  <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
-                    <ShieldCheck className="w-5 h-5" />
-                  </div>
-                  <h4 className="font-bold text-white text-base">Phân Quyền Vai Trò RBAC</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Kiểm soát chặt chẽ theo 4 cấp quyền chuẩn quốc tế:
-                  </p>
-                  <ul className="text-xs text-slate-300 space-y-1.5 pl-3 list-disc">
-                    <li><strong>Requester:</strong> Chỉ xem được ticket của mình</li>
-                    <li><strong>Support Agent:</strong> Xử lý ticket được phân công</li>
-                    <li><strong>Team Lead:</strong> Theo dõi hiệu suất toàn nhóm</li>
-                    <li><strong>Admin:</strong> Quản trị hệ thống và API Keys</li>
-                  </ul>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-[#121c30]/80 border border-slate-800 space-y-3">
-                  <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
-                    <FileText className="w-5 h-5" />
-                  </div>
-                  <h4 className="font-bold text-white text-base">GitHub Secret Protection</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Cơ chế bảo vệ mã nguồn máy chủ: toàn bộ API Keys, Secret OAuth Google và mật khẩu CSDL được tách biệt bằng file cấu hình riêng, tự động thay thế bằng chuỗi an toàn trước khi đẩy lên GitHub công khai.
-                  </p>
-                </div>
-
-              </div>
-
             </div>
           </div>
-        )}
 
-      </main>
+          {/* Navigation Tabs Selector */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-slate-800/90">
+            {[
+              { id: 'ai_triage', label: '1. Tiếp Nhận & AI Triage', icon: Workflow, color: 'text-cyan-400' },
+              { id: 'load_balance', label: '2. Phân Bổ Nhân Viên L1/L2', icon: Users, color: 'text-indigo-400' },
+              { id: 'escalation_sla', label: '3. Leo Thang L2 & Chuẩn SLA', icon: Zap, color: 'text-amber-400' },
+              { id: 'rag_knowledge', label: '4. Kho Tri Thức RAG & Copilot', icon: Database, color: 'text-purple-400' },
+              { id: 'architecture', label: '5. Kiến Trúc Hạ Tầng Container', icon: Server, color: 'text-emerald-400' },
+              { id: 'security_pii', label: '6. An Toàn Thông Tin & PII', icon: ShieldCheck, color: 'text-rose-400' },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 inline-flex items-center gap-2.5 cursor-pointer backdrop-blur-md ${
+                    isActive 
+                      ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-lg shadow-indigo-600/35 border border-indigo-400/50' 
+                      : 'text-slate-300 hover:text-white bg-slate-900/70 hover:bg-slate-800/80 border border-slate-800/80'
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : tab.color}`} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-[#0a0f18]/90 backdrop-blur-md py-5 px-4 text-center text-xs text-slate-500 mt-auto">
-        &copy; 2026 CSKH IT Service Desk &bull; Bản tài liệu kỹ thuật &amp; giải trình hệ thống AI ServiceDesk toàn diện
-      </footer>
+          {/* TAB 1: Cơ Chế Tiếp Nhận & AI Triage */}
+          {activeTab === 'ai_triage' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              <div className="bg-slate-900/85 backdrop-blur-xl rounded-2xl border border-slate-700/70 shadow-2xl p-6 sm:p-9 space-y-6">
+                
+                <div className="border-b border-slate-800/80 pb-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center">
+                      <Workflow className="w-4 h-4 text-cyan-400" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-white">Quy Trình Tiếp Nhận &amp; Phân Phối Tự Động (AI Triage Pipeline)</h2>
+                      <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                        Xử lý trọn gói từ khi người dùng bấm "Gửi yêu cầu" đến khi ticket nằm trên bàn làm việc của đúng nhân sự chuyên trách, chỉ mất dưới 800ms.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sơ đồ 4 giai đoạn */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/90 relative overflow-hidden space-y-2">
+                    <div className="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 flex items-center justify-center font-bold text-xs">01</div>
+                    <h3 className="font-bold text-white text-sm">Khử Khuẩn Dữ Liệu PII</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Trước khi gửi ra mô hình AI bên ngoài, bộ lọc <code>PIIMasker</code> tự động thay thế số điện thoại, email cá nhân và mật khẩu bằng các nhãn an toàn như <code>[PHONE_REDACTED]</code>.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/90 relative overflow-hidden space-y-2">
+                    <div className="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 flex items-center justify-center font-bold text-xs">02</div>
+                    <h3 className="font-bold text-white text-sm">Phân Loại Đa Kênh AI</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Hệ thống gửi song song 2 luồng: <strong>AI Triage</strong> (xác định danh mục &amp; mức độ ưu tiên P1-P4) và <strong>Sentiment Analysis</strong> (đo độ phẫn nộ / khẩn cấp của người gửi).
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/90 relative overflow-hidden space-y-2">
+                    <div className="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 flex items-center justify-center font-bold text-xs">03</div>
+                    <h3 className="font-bold text-white text-sm">Định Tuyến Nhóm Chuyên Môn</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Ánh xạ danh mục vào 6 Skill Group: Mạng (<code>NETWORK_INFRA</code>), Phần mềm (<code>SOFTWARE_BUG</code>), Tài khoản (<code>ACCOUNT_AUTH</code>), Thiết bị (<code>DEVICE</code>), v.v.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/90 relative overflow-hidden space-y-2">
+                    <div className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center justify-center font-bold text-xs">04</div>
+                    <h3 className="font-bold text-white text-sm">Giao Việc &amp; Bắt Đầu SLA</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Phân công cho nhân viên có ít ticket nhất (Least-Workload). Thiết lập bộ đếm thời gian cam kết dịch vụ (First Response SLA &amp; Resolution SLA).
+                    </p>
+                  </div>
+                </div>
+
+                {/* 6 Nhóm Phân Loại Category Chi Tiết */}
+                <div className="space-y-3 pt-3">
+                  <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-cyan-400" />
+                    Bảng 6 Nhóm Kỹ Năng &amp; Danh Mục Xử Lý Chuẩn Hóa
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                    <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs space-y-1.5">
+                      <div className="font-bold text-cyan-300 flex items-center justify-between">
+                        <span>NETWORK_INFRA</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">Hạ Tầng Mạng</span>
+                      </div>
+                      <p className="text-slate-400 leading-relaxed">Xử lý VPN không kết nối, mất Internet văn phòng, đứt cáp mạng LAN, lỗi DNS, cấu hình WiFi doanh nghiệp.</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs space-y-1.5">
+                      <div className="font-bold text-indigo-300 flex items-center justify-between">
+                        <span>ACCOUNT_AUTH</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">Tài Khoản &amp; SSO</span>
+                      </div>
+                      <p className="text-slate-400 leading-relaxed">Khóa tài khoản do nhập sai pass, cấp phát quyền truy cập ERP/CRM, lỗi Google Workspace, quên mật khẩu.</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs space-y-1.5">
+                      <div className="font-bold text-rose-300 flex items-center justify-between">
+                        <span>SOFTWARE_BUG</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-800">Lỗi Phần Mềm</span>
+                      </div>
+                      <p className="text-slate-400 leading-relaxed">Ứng dụng nội bộ bị crash, lỗi đồng bộ dữ liệu, lỗi phiên bản build mới, sự cố xung đột hệ điều hành.</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs space-y-1.5">
+                      <div className="font-bold text-amber-300 flex items-center justify-between">
+                        <span>DEVICE</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800">Thiết Bị &amp; Phần Cứng</span>
+                      </div>
+                      <p className="text-slate-400 leading-relaxed">Máy in không nhận lệnh, laptop bị màn hình xanh (BSOD), chuột bàn phím hỏng, yêu cầu nâng cấp RAM/SSD.</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs space-y-1.5">
+                      <div className="font-bold text-purple-300 flex items-center justify-between">
+                        <span>ACCESS_RESOURCE</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-purple-950 text-purple-400 border border-purple-800">Cấp Quyền &amp; Folder</span>
+                      </div>
+                      <p className="text-slate-400 leading-relaxed">Cấp quyền truy cập ổ đĩa chia sẻ NAS, phân quyền Git repository, tạo hòm thư chung, mở port tường lửa.</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs space-y-1.5">
+                      <div className="font-bold text-emerald-300 flex items-center justify-between">
+                        <span>TECH_GUIDE</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">Hướng Dẫn Kỹ Thuật</span>
+                      </div>
+                      <p className="text-slate-400 leading-relaxed">Hướng dẫn cài đặt chứng chỉ số SSL, cài đặt chữ ký số điện tử, tài liệu cấu hình Outlook cho nhân viên mới.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Đoạn trích Code Backend Thực Thi */}
+                <div className="space-y-3 pt-3">
+                  <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
+                    <FileCode className="w-4 h-4 text-cyan-400" />
+                    Đoạn Trích Logic Backend (FastAPI &amp; Async IO Pipeline)
+                  </h3>
+                  <div className="bg-slate-950/90 text-slate-300 p-5 rounded-xl font-mono text-xs leading-relaxed border border-slate-800 overflow-x-auto space-y-1.5 shadow-inner">
+                    <p className="text-slate-500">// 1. Khởi chạy song song Triage và Phân Tích Cảm Xúc bằng asyncio.gather</p>
+                    <p className="text-cyan-300">masked_text = PIIMasker.mask_text(ticket_desc)</p>
+                    <p className="text-purple-300">raw_triage, raw_sentiment = await asyncio.gather(</p>
+                    <p className="pl-6 text-indigo-300">ai_triage_ticket(masked_text),</p>
+                    <p className="pl-6 text-amber-300">analyze_sentiment(masked_text),</p>
+                    <p className="pl-6 text-slate-400">return_exceptions=True</p>
+                    <p className="text-purple-300">)</p>
+                    <p className="text-slate-500 pt-2">// 2. Phân công kỹ thuật viên theo nhóm kỹ năng &amp; cấp L1/L2</p>
+                    <p className="text-emerald-400">assigned_agent_id = await assign_agent_by_skill_and_level(</p>
+                    <p className="pl-6 text-slate-300">db=db, category_id=ai_result.category_id, level="L1"</p>
+                    <p className="text-emerald-400">)</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: Phân Bổ Nhân Viên L1 vs L2 */}
+          {activeTab === 'load_balance' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              <div className="bg-slate-900/85 backdrop-blur-xl rounded-2xl border border-slate-700/70 shadow-2xl p-6 sm:p-9 space-y-6">
+                
+                <div className="border-b border-slate-800/80 pb-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+                      <Users className="w-4 h-4 text-indigo-400" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-white">Thuật Toán Cân Bằng Tải Least-Workload (Phân Bổ Kỹ Thuật Viên)</h2>
+                      <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                        Giải đáp chi tiết cơ chế phân xử: Khi có nhiều nhân viên L1 hoặc L2 đang cùng online, hệ thống dựa vào đâu để ra quyết định giao việc?
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Ma Trận Phân Quyền 3 Tầng */}
+                <div className="space-y-4">
+                  <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
+                    <GitBranch className="w-4 h-4 text-indigo-400" />
+                    Ma Trận Tìm Kiếm Ứng Viên 3 Tầng (3-Tier Fallback Hierarchy)
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="p-4 rounded-xl bg-slate-950/70 border border-indigo-500/30 space-y-2">
+                      <div className="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-900/60 text-indigo-300 border border-indigo-700">TẦNG 1: CHUẨN XÁC</div>
+                      <h4 className="font-bold text-white text-sm">Đúng Cấp &amp; Đúng Kỹ Năng</h4>
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        Hệ thống truy vấn nhân viên có <code>support_level == 'L1'</code>, đang kích hoạt (<code>is_active == true</code>) và có nhóm kỹ năng trùng khớp chính xác: <code>skill_group == category_code</code>.
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
+                      <div className="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">TẦNG 2: MỞ RỘNG CÙNG CẤP</div>
+                      <h4 className="font-bold text-white text-sm">Toàn Bộ Agent Tuyến 1 (L1)</h4>
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        Nếu toàn bộ nhân viên thuộc kỹ năng đó đang nghỉ hoặc bận offline, hệ thống mở rộng tìm tất cả các nhân sự <code>SUPPORT_AGENT</code> đang online ở cùng cấp level L1 để hỗ trợ thay thế.
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
+                      <div className="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-amber-900/50 text-amber-300 border border-amber-700">TẦNG 3: DỰ PHÒNG CUỐI</div>
+                      <h4 className="font-bold text-white text-sm">Team Lead / Admin Support</h4>
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        Nếu toàn bộ Agent L1 đều vắng mặt, hệ thống tự động gán cho Team Lead hoặc Quản trị viên trực ban (chế độ không áp dụng ép buộc <code>strict=False</code>), bảo đảm không có ticket nào bị "mồ côi".
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2 Kịch bản giải quyết tải */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                  <div className="p-5 rounded-xl border border-slate-800 bg-slate-950/70 space-y-3">
+                    <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
+                      <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                      <span>Trường Hợp 1: Tải Công Việc Giữa Các Agent Không Đều</span>
+                    </div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Hệ thống tự động thực thi câu lệnh đếm tổng số ticket mà mỗi kỹ thuật viên đang phải chịu trách nhiệm (bao gồm các trạng thái chưa đóng: <code>NEW</code>, <code>PROCESSING</code>, <code>WAITING_CUSTOMER</code>).
+                    </p>
+                    <div className="p-3.5 bg-slate-900/90 rounded-xl border border-slate-800/90 text-xs text-slate-300 space-y-1.5 font-mono">
+                      <p>• Kỹ thuật viên A (Mạng L1): <span className="text-cyan-400 font-bold">1 ticket đang mở</span></p>
+                      <p>• Kỹ thuật viên B (Mạng L1): <span className="text-rose-400 font-bold">4 tickets đang mở</span></p>
+                      <div className="border-t border-slate-800 pt-1.5 text-emerald-400 font-sans font-semibold">
+                        ➔ Kết quả: Ticket lập tức được gán cho Kỹ thuật viên A để cân đối lại áp lực công việc.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-5 rounded-xl border border-slate-800 bg-slate-950/70 space-y-3">
+                    <div className="flex items-center gap-2 text-indigo-400 font-bold text-sm">
+                      <CheckCircle2 className="w-4 h-4 text-indigo-400" />
+                      <span>Trường Hợp 2: Tải Công Việc Bằng Nhau (Tie-Breaker)</span>
+                    </div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Khi cả 2 kỹ thuật viên đều có số ticket đang giải quyết giống hệt nhau (ví dụ cùng có 0 ticket hoặc cùng có 1 ticket):
+                    </p>
+                    <div className="p-3.5 bg-slate-900/90 rounded-xl border border-slate-800/90 text-xs text-slate-300 space-y-1.5 font-mono">
+                      <p>• Sắp xếp theo khóa ID / Thời điểm nhận ticket gần nhất (FIFO index)</p>
+                      <p>• Ticket kế tiếp sẽ tự động chuyển giao luân phiên cho người còn lại (Round-Robin)</p>
+                      <div className="border-t border-slate-800 pt-1.5 text-indigo-300 font-sans font-semibold">
+                        ➔ Kết quả: Tuyệt đối triệt tiêu tình trạng dồn dập việc lên một nhân sự duy nhất.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Câu lệnh SQL backend thực tế */}
+                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 text-xs space-y-2 font-mono">
+                  <span className="text-indigo-400 font-bold uppercase tracking-wider block font-sans">Câu Lệnh Backend Tính Workload:</span>
+                  <p className="text-slate-300">
+                    SELECT assigned_agent_id, COUNT(id) AS active_load FROM tickets WHERE status IN ('NEW', 'PROCESSING', 'WAITING_CUSTOMER') GROUP BY assigned_agent_id ORDER BY active_load ASC;
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: Leo Thang L2 & Chuẩn SLA */}
+          {activeTab === 'escalation_sla' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              <div className="bg-slate-900/85 backdrop-blur-xl rounded-2xl border border-slate-700/70 shadow-2xl p-6 sm:p-9 space-y-6">
+                
+                <div className="border-b border-slate-800/80 pb-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+                      <Zap className="w-4 h-4 text-amber-400" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-white">Cơ Chế Leo Thang L2 (Escalation Path) &amp; Cam Kết Dịch Vụ SLA</h2>
+                      <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                        Phân định ranh giới giữa Tuyến 1 (L1) và Tuyến 2 (L2), cùng bảng thời gian phản hồi theo chuẩn ITIL quốc tế.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bảng phân biệt L1 vs L2 */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="p-5 rounded-xl border border-slate-800 bg-slate-950/70 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">TUYẾN 1 (L1 - FRONTLINE)</span>
+                      <span className="text-xs text-slate-400">Tiếp nhận &amp; Sơ bộ</span>
+                    </div>
+                    <ul className="text-xs text-slate-300 space-y-2 list-disc pl-4 leading-relaxed">
+                      <li>Tiếp nhận yêu cầu ban đầu, hướng dẫn người dùng theo đúng <strong>Runbook chuẩn</strong> có trong kho tri thức RAG.</li>
+                      <li>Khởi tạo lại mật khẩu, cấp quyền thư mục chuẩn, kiểm tra kết nối mạng cục bộ tại máy trạm.</li>
+                      <li>Giải quyết các sự cố phổ thông, lặp lại có quy trình sẵn.</li>
+                    </ul>
+                  </div>
+
+                  <div className="p-5 rounded-xl border border-indigo-500/30 bg-slate-950/70 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-700">TUYẾN 2 (L2 - SPECIALIST)</span>
+                      <span className="text-xs text-amber-400 font-semibold">Chuyên gia chuyên sâu</span>
+                    </div>
+                    <ul className="text-xs text-slate-300 space-y-2 list-disc pl-4 leading-relaxed">
+                      <li>Xử lý sự cố phần cứng máy chủ trung tâm, Router Core, Firewall cty, sập Database.</li>
+                      <li>Điều tra Bug ứng dụng phần mềm, debug mã nguồn và vá nóng hệ thống.</li>
+                      <li>Tiếp quản xử lý các khiếu nại gay gắt (khách hàng bức xúc) do AI hoặc L1 đẩy lên.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* 2 Luồng chuyển cấp L2 */}
+                <div className="p-5 rounded-xl bg-amber-950/20 border border-amber-900/60 space-y-4">
+                  <h3 className="font-bold text-amber-300 text-sm flex items-center gap-2">
+                    <Flame className="w-4 h-4 text-amber-400" />
+                    Cơ Chế Chuyển Cấp Tự Động (AI-Driven) &amp; Thủ Công (Manual)
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div className="bg-slate-950/80 p-4 rounded-xl border border-amber-900/50 space-y-2">
+                      <h4 className="font-bold text-white flex items-center gap-1.5">
+                        <Bot className="w-3.5 h-3.5 text-amber-400" />
+                        Tự Động Leo Thang Khi Cảm Xúc Tiêu Cực
+                      </h4>
+                      <p className="text-slate-300 leading-relaxed">
+                        Khi người dùng phản hồi với thái độ bức xúc, đe dọa khiếu nại hoặc gián đoạn nghiêm trọng:
+                      </p>
+                      <ul className="list-disc pl-4 text-slate-400 space-y-1">
+                        <li>AI Sentiment đạt ngưỡng tin cậy &ge; <strong>0.82 (82%)</strong>.</li>
+                        <li>Đánh dấu cờ <code>AUTO_ESCALATED</code>, thời gian <code>escalated_at</code>.</li>
+                        <li><strong>Tạo ghi chú nội bộ bí mật (is_internal=True):</strong> Trích xuất câu nói bằng chứng (evidence) và phân tích nguyên nhân để L2 nắm thông tin, hoàn toàn giấu kín khỏi màn hình của người dùng.</li>
+                        <li>Nếu không có L2 online ngay, chuyển sang hàng đợi ưu tiên <code>L2_WAITING</code>.</li>
+                      </ul>
+                    </div>
+
+                    <div className="bg-slate-950/80 p-4 rounded-xl border border-slate-800 space-y-2">
+                      <h4 className="font-bold text-white flex items-center gap-1.5">
+                        <Users className="w-3.5 h-3.5 text-indigo-400" />
+                        Chuyển Cấp Thủ Công Bởi Nhân Viên L1
+                      </h4>
+                      <p className="text-slate-300 leading-relaxed">
+                        Trong quá trình xử lý, nếu Kỹ thuật viên L1 nhận thấy:
+                      </p>
+                      <ul className="list-disc pl-4 text-slate-400 space-y-1">
+                        <li>Sự cố vượt quá quyền hạn hạn chế của tài khoản nhân viên.</li>
+                        <li>Lỗi nằm ở lõi dịch vụ Cloud, Database deadlock hoặc mã nguồn backend.</li>
+                        <li>L1 bấm nút "Chuyển cấp L2" ngay trong Ticket Detail, hệ thống yêu cầu nhập lý do chi tiết và tự động gán sang nhân sự Tuyến 2.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bảng Cam Kết SLA Chuẩn ITIL */}
+                <div className="space-y-3 pt-2">
+                  <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-amber-400" />
+                    Bảng Cam Kết Dịch Vụ SLA Cố Định Theo Mức Ưu Tiên
+                  </h3>
+                  <div className="overflow-x-auto rounded-xl border border-slate-800">
+                    <table className="w-full text-xs text-left">
+                      <thead className="bg-slate-950 text-slate-400 uppercase font-mono border-b border-slate-800">
+                        <tr>
+                          <th className="px-4 py-3">Mức Ưu Tiên</th>
+                          <th className="px-4 py-3">Phạm Vi Tác Động</th>
+                          <th className="px-4 py-3">Phản Hồi Đầu Tiên (First Response)</th>
+                          <th className="px-4 py-3">Giải Quyết Xong (Resolution Due)</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-800/80 bg-slate-950/50">
+                        <tr className="hover:bg-slate-900/50">
+                          <td className="px-4 py-3.5 font-bold text-rose-400 flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                            CRITICAL_P1
+                          </td>
+                          <td className="px-4 py-3 text-slate-300">Tác động tê liệt toàn diện, ngừng trệ hệ thống diện rộng</td>
+                          <td className="px-4 py-3 font-semibold text-emerald-400">Trong vòng 15 phút</td>
+                          <td className="px-4 py-3 font-semibold text-white">Trong vòng 60 phút (1 giờ)</td>
+                        </tr>
+                        <tr className="hover:bg-slate-900/50">
+                          <td className="px-4 py-3.5 font-bold text-amber-400">HIGH_P2</td>
+                          <td className="px-4 py-3 text-slate-300">Tác động lớn, nhiều nhân sự/phòng ban bị ngưng trệ</td>
+                          <td className="px-4 py-3 font-semibold text-emerald-400">Trong vòng 30 phút</td>
+                          <td className="px-4 py-3 font-semibold text-white">Trong vòng 240 phút (4 giờ)</td>
+                        </tr>
+                        <tr className="hover:bg-slate-900/50">
+                          <td className="px-4 py-3.5 font-bold text-indigo-400">MEDIUM_P3</td>
+                          <td className="px-4 py-3 text-slate-300">Tác động mức độ vừa, ảnh hưởng 1 cá nhân hoặc nhóm nhỏ</td>
+                          <td className="px-4 py-3 font-semibold text-emerald-400">Trong vòng 120 phút (2 giờ)</td>
+                          <td className="px-4 py-3 font-semibold text-white">Trong vòng 1.440 phút (24 giờ)</td>
+                        </tr>
+                        <tr className="hover:bg-slate-900/50">
+                          <td className="px-4 py-3.5 font-bold text-slate-400">LOW_P4</td>
+                          <td className="px-4 py-3 text-slate-300">Yêu cầu thông tin, hướng dẫn dịch vụ thường nhật</td>
+                          <td className="px-4 py-3 font-semibold text-emerald-400">Trong vòng 480 phút (8 giờ)</td>
+                          <td className="px-4 py-3 font-semibold text-white">Trong vòng 4.320 phút (72 giờ)</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: RAG Tri Thức & Copilot */}
+          {activeTab === 'rag_knowledge' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              <div className="bg-slate-900/85 backdrop-blur-xl rounded-2xl border border-slate-700/70 shadow-2xl p-6 sm:p-9 space-y-6">
+                
+                <div className="border-b border-slate-800/80 pb-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
+                      <Database className="w-4 h-4 text-purple-400" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-white">Kho Tri Thức RAG (Retrieval-Augmented Generation) &amp; AI Copilot</h2>
+                      <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                        Kiến trúc lưu trữ 1.006 chunks dữ liệu từ sổ tay IT nội bộ <code>So-tay-RAG.docx</code> và cơ chế sinh phản hồi có căn cứ (Anti-Hallucination).
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Luồng RAG 3 bước */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
+                    <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block font-mono">BƯỚC 1: TIẾP NHẬN &amp; TÁCH ĐOẠN</span>
+                    <h3 className="font-bold text-white text-sm">Chunking &amp; Mã Bài Viết</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Toàn bộ 179 runbook kỹ thuật được phân rã thành 1.006 chunks lưu tại bảng <code>rag_chunks</code>. Mỗi chunk đều gắn thẻ mã chuẩn hóa (vd: <code>NET-002</code> - Fix VPN, <code>ACC-001</code> - Mở khóa domain, <code>POL-008</code> - Chính sách an toàn thông tin).
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
+                    <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest block font-mono">BƯỚC 2: TRUY XUẤT LAI HYBRID</span>
+                    <h3 className="font-bold text-white text-sm">Fulltext + Vector Semantic</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Khi nhận câu hỏi từ người dùng hoặc nhân viên bấm "Gợi ý AI", hệ thống thực hiện tìm kiếm kết hợp giữa khớp từ khóa chuyên ngành và độ tương đồng ngữ nghĩa để chọn ra top 3-5 quy trình liên quan nhất.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2">
+                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest block font-mono">BƯỚC 3: TỔNG HỢP CÓ DẪN CHỨNG</span>
+                    <h3 className="font-bold text-white text-sm">Grounded Answer &amp; Citation</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      AI bắt buộc phải sinh câu trả lời dựa trên nội dung chunks đã tìm thấy, đính kèm số % độ tự tin (Confidence Score) và mã tài liệu tham chiếu để nhân viên kiểm chứng trước khi nhấn gửi.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Chi tiết 2 tính năng AI phục vụ người dùng & Agent */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                  <div className="p-5 rounded-xl border border-indigo-500/30 bg-slate-950/70 space-y-3">
+                    <h4 className="font-bold text-indigo-300 text-sm flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-indigo-400" />
+                      Nút "Gợi Ý AI (AI Copilot)" Trong Chi Tiết Ticket
+                    </h4>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      Dành riêng cho nhân viên hỗ trợ (Support Agent). Khi mở xem ticket, Agent chỉ cần bấm <strong>"Gợi ý phản hồi AI"</strong>:
+                    </p>
+                    <ul className="text-xs text-slate-400 space-y-1.5 list-disc pl-4">
+                      <li>Hệ thống tự động tra cứu giải pháp trong tài liệu nội bộ.</li>
+                      <li>Sinh mẫu phản hồi lịch sự, chuẩn kỹ thuật, từng bước rõ ràng.</li>
+                      <li>Hiện huy hiệu độ tự tin (ví dụ: <span className="text-emerald-400 font-bold">96% Tin cậy</span>).</li>
+                      <li>Agent có quyền sửa lại câu chữ trước khi gửi chính thức cho người dùng.</li>
+                    </ul>
+                  </div>
+
+                  <div className="p-5 rounded-xl border border-cyan-500/30 bg-slate-950/70 space-y-3">
+                    <h4 className="font-bold text-cyan-300 text-sm flex items-center gap-2">
+                      <Bot className="w-4 h-4 text-cyan-400" />
+                      Trợ Lý Ảo Chatbot Tự Động (Floating Chat Widget)
+                    </h4>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      Cửa sổ chat thông minh nằm ở góc dưới bên phải màn hình:
+                    </p>
+                    <ul className="text-xs text-slate-400 space-y-1.5 list-disc pl-4">
+                      <li>Hỗ trợ người dùng tự chẩn đoán nhanh sự cố 24/7 mà không cần chờ nhân sự.</li>
+                      <li>Hướng dẫn cách xử lý sự cố wifi, đổi pass, reset thiết bị ngoại vi ngay tức thì.</li>
+                      <li>Nếu sự cố phức tạp, Chatbot có nút <strong>"Tạo Ticket Ngay"</strong> với nội dung được tóm tắt sẵn sàng.</li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: Kiến Trúc Hạ Tầng */}
+          {activeTab === 'architecture' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              <div className="bg-slate-900/85 backdrop-blur-xl rounded-2xl border border-slate-700/70 shadow-2xl p-6 sm:p-9 space-y-6">
+                
+                <div className="border-b border-slate-800/80 pb-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                      <Server className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-white">Kiến Trúc Ngăn Xếp Công Nghệ &amp; Hạ Tầng Container (DevOps)</h2>
+                      <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                        Kiến trúc micro-services đóng gói Docker Compose độc lập, đảm bảo khả năng chịu lỗi và tự hồi phục.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4 Khối Thành Phần Cốt Lõi */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/70 space-y-2">
+                    <div className="text-[10px] font-mono font-bold text-cyan-400">CONTAINER 1: REVERSE PROXY</div>
+                    <h4 className="font-bold text-white text-sm">Nginx Alpine + SSL</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Chứng chỉ SSL Let's Encrypt / Certbot, cân bằng tải, nén Gzip level 6 phục vụ static bundle, proxy pass API <code>/api/v1</code> về backend.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/70 space-y-2">
+                    <div className="text-[10px] font-mono font-bold text-indigo-400">CONTAINER 2: APPLICATION API</div>
+                    <h4 className="font-bold text-white text-sm">FastAPI Python 3.11</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Async I/O non-blocking, Uvicorn ASGI server, SQLAlchemy 2.0 AsyncSession, Pydantic v2 data validation, background tasks gửi mail SMTP.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/70 space-y-2">
+                    <div className="text-[10px] font-mono font-bold text-amber-400">CONTAINER 3: DATABASE RELATIONAL</div>
+                    <h4 className="font-bold text-white text-sm">MySQL 8.0 Community</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Lưu trữ toàn bộ Users, Tickets, Comments, SLA Policies, Audit Logs. Tự động index trên các trường trạng thái và thời gian.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/70 space-y-2">
+                    <div className="text-[10px] font-mono font-bold text-rose-400">CONTAINER 4: IN-MEMORY CACHE</div>
+                    <h4 className="font-bold text-white text-sm">Redis 7 Alpine</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Quản lý danh sách đen Token thu hồi (Blacklist JWT), Rate-limit bảo vệ chống Brute-force và cache session đăng nhập tức thời.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Cơ chế Xoay Vòng API Key AI */}
+                <div className="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+                  <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
+                    <RefreshCw className="w-4 h-4 text-emerald-400" />
+                    Cơ Chế Xoay Vòng Đa Khóa AI (Multi-Key Rotation Pool)
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Hệ thống tích hợp mô-đun <code>KeyManager</code> độc quyền: Quản lý một cụm danh sách nhiều API Key của Google Gemini, Cohere và Groq. Khi một khóa gặp sự cố chạm hạn mức tần suất (HTTP 429 Too Many Requests) hoặc mạng chập chờn:
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs">
+                    <div className="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-1">
+                      <div className="text-cyan-400 font-bold">1. Tự Động Đổi Khóa</div>
+                      <p className="text-slate-400">Chuyển sang API key kế tiếp trong Pool chỉ sau 10ms.</p>
+                    </div>
+                    <div className="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-1">
+                      <div className="text-indigo-400 font-bold">2. Hồi Phục Quota (Cooldown)</div>
+                      <p className="text-slate-400">Tạm khóa key cũ trong 60 giây trước khi đưa lại vào vòng xoay.</p>
+                    </div>
+                    <div className="p-3 bg-slate-900 rounded-lg border border-slate-800 space-y-1">
+                      <div className="text-emerald-400 font-bold">3. Zero-Downtime Fallback</div>
+                      <p className="text-slate-400">Nếu mọi model cloud lỗi, kích hoạt bộ phân tích quy tắc nội bộ.</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* TAB 6: An Toàn Thông Tin & PII */}
+          {activeTab === 'security_pii' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              <div className="bg-slate-900/85 backdrop-blur-xl rounded-2xl border border-slate-700/70 shadow-2xl p-6 sm:p-9 space-y-6">
+                
+                <div className="border-b border-slate-800/80 pb-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-rose-500/20 border border-rose-500/30 flex items-center justify-center">
+                      <ShieldCheck className="w-4 h-4 text-rose-400" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-white">An Toàn Thông Tin, Che Mờ PII &amp; Kiểm Soát Truy Cập RBAC</h2>
+                      <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                        Bảo đảm quyền riêng tư tuyệt đối cho khách hàng và tuân thủ các quy định bảo vệ dữ liệu doanh nghiệp.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* PII Masker */}
+                  <div className="p-5 rounded-xl border border-slate-800 bg-slate-950/70 space-y-3">
+                    <h3 className="font-bold text-rose-300 text-sm flex items-center gap-2">
+                      <Lock className="w-4 h-4 text-rose-400" />
+                      Mô-đun Khử Khuẩn PII (PIIMasker Engine)
+                    </h3>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      Mọi nội dung ticket, tiêu đề và bình luận trước khi được chuyển đến bất kỳ mô hình AI nào đều bắt buộc đi qua bộ lọc Regex của <code>PIIMasker</code>:
+                    </p>
+                    <ul className="text-xs text-slate-400 space-y-2 list-disc pl-4 leading-relaxed">
+                      <li><strong>Số điện thoại:</strong> <code>0912345678</code> ➔ Tự động biến đổi thành <code>[PHONE_REDACTED]</code>.</li>
+                      <li><strong>Địa chỉ Email cá nhân:</strong> <code>user@gmail.com</code> ➔ Tự động biến đổi thành <code>[EMAIL_REDACTED]</code>.</li>
+                      <li><strong>Mật khẩu / Token bí mật:</strong> Các chuỗi hash, OTP, Access Token tự động bị bóc tách và loại bỏ.</li>
+                      <li>Dữ liệu gốc chỉ được lưu mã hóa trong Database nội bộ, máy chủ AI không thể học hay thu thập thông tin cá nhân.</li>
+                    </ul>
+                  </div>
+
+                  {/* RBAC 4 Cấp Độ */}
+                  <div className="p-5 rounded-xl border border-slate-800 bg-slate-950/70 space-y-3">
+                    <h3 className="font-bold text-indigo-300 text-sm flex items-center gap-2">
+                      <Users className="w-4 h-4 text-indigo-400" />
+                      Phân Quyền Vai Trò 4 Cấp (RBAC Matrix)
+                    </h3>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      Hệ thống kiểm tra Token JWT kèm vai trò tại từng API endpoint (Role-Based Access Control):
+                    </p>
+                    <div className="space-y-2 text-xs">
+                      <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                        <span className="font-bold text-red-400">ADMIN:</span> Toàn quyền cấu hình AI settings, quản lý nhân viên, xóa ticket, thiết lập SLA policies.
+                      </div>
+                      <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                        <span className="font-bold text-amber-400">TEAM_LEAD:</span> Phân công lại ticket, duyệt chuyển cấp, theo dõi báo cáo hiệu suất toàn đội ngũ.
+                      </div>
+                      <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                        <span className="font-bold text-indigo-400">SUPPORT_AGENT (L1/L2):</span> Nhận và xử lý ticket được gán, dùng AI Copilot, viết ghi chú nội bộ.
+                      </div>
+                      <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                        <span className="font-bold text-emerald-400">REQUESTER (User):</span> Chỉ xem và phản hồi các ticket do chính bản thân tạo, tra cứu FAQ và chat với bot.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Cơ Chế Bảo Vệ Mã Nguồn & Token Blacklist */}
+                <div className="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+                  <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    Cơ Chế Thu Hồi Phiên JWT (Redis Blacklist) &amp; Bảo Vệ GitHub
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300">
+                    <div className="space-y-1">
+                      <span className="font-semibold text-white">1. Hủy Phiên Tức Thì (Instant Token Revocation):</span>
+                      <p className="text-slate-400 leading-relaxed">
+                        Khác với JWT truyền thống không thể thu hồi trước khi hết hạn, hệ thống lưu token đã đăng xuất vào Redis Blacklist với TTL bằng đúng thời hạn sống còn lại của token. Bất kỳ request nào mang token trong blacklist đều bị chặn ngay lập tức.
+                      </p>
+                    </div>
+                    <div className="space-y-1">
+                      <span className="font-semibold text-white">2. Push Protection Chống Lộ Bí Mật:</span>
+                      <p className="text-slate-400 leading-relaxed">
+                        Toàn bộ API Key, thông tin database thực và file cấu hình mật đều được bảo vệ trong biến môi trường và file <code>.gitignore</code>, tự động thay thế bằng dữ liệu mẫu an toàn trước khi đẩy lên kho mã nguồn.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+        </main>
+
+        {/* Footer */}
+        <footer className="border-t border-slate-800/80 bg-slate-950/80 backdrop-blur-xl py-6 px-4 text-center text-xs text-slate-400 mt-auto shadow-2xl">
+          <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>CSKH IT Service Desk &copy; 2026 • Hệ Thống Hỗ Trợ Kỹ Thuật Độc Lập</span>
+            </div>
+            <div className="text-[11px] text-slate-500 font-mono">
+              Trang kỹ thuật nội bộ • Truy cập bảo mật trực tiếp
+            </div>
+          </div>
+        </footer>
+
+      </div>
     </div>
   );
 }
